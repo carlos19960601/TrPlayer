@@ -1,0 +1,46 @@
+{
+	"download": "下载",
+	"cancel": "取消",
+	"sidebar": {
+		"home": "主页",
+		"medias": "媒体"
+	},
+	"preferences": {
+		"title": "设置",
+		"generalSettings": "通用设置",
+		"ollamaSettings": "Ollama设置",
+		"models": "模型管理",
+		"appearance": "外观设置",
+		"language": "语言设置",
+		"model": "模型",
+		"availableModels": "可用模型"
+	},
+	"appearance": {
+		"theme": "主题",
+		"light": "浅色",
+		"dark": "深色",
+		"system": "跟随系统"
+	},
+	"language": {
+		"changeLanguage": "变更语言",
+		"en": "English",
+		"zh-CN": "简体中文"
+	},
+	"model": {
+		"modelFolder": "Model文件夹",
+		"openFolder": "打开文件夹",
+		"changeFolder": "更改",
+		"all": "全部模型",
+		"multiLanguage": "支持多语言",
+		"onlyEnglish": "仅支持英语",
+		"tinyDescription": "输出文字速度快，转写文字质量一般。(77.7MB)",
+		"baseDescription": "输出文字速度快，转写文字质量一般。(148MB)",
+		"smallDescription": "输出文字速度快，转写文字质量较好。(488MB)",
+		"mediumDescription": "输出文字速度适中，转写文字质量最佳。(1.53GB)",
+		"tinyEnDescription": "输出文字速度快，转写文字质量一般。(77.7MB)",
+		"baseEnDescription": "输出文字速度快，转写文字质量一般。(148MB)"
+	},
+	"home": {
+		"localFile": "选择本地媒体"
+	}
+}

@@ -1,0 +1,41 @@
+{
+	"download": "Download",
+	"cancel": "Cancel",
+	"sidebar": {
+		"home": "Home",
+		"medias": "Medias"
+	},
+	"preferences": {
+		"title": "Preferences",
+		"generalSettings": "General Settings",
+		"ollamaSettings": "Ollama Settings",
+		"models": "Models",
+		"appearance": "Appearance",
+		"language": "Language",
+		"model": "Model",
+		"availableModels": "Available Models"
+	},
+	"appearance": {
+		"theme": "Theme",
+		"light": "Light",
+		"dark": "Dark",
+		"system": "System"
+	},
+	"language": {
+		"changeLanguage": "Language",
+		"en": "English",
+		"zh-CN": "简体中文"
+	},
+	"model": {
+		"modelFolder": "Model Folder",
+		"openFolder": "Open Folder",
+		"changeFolder": "Change Folder",
+		"all": "All Models",
+		"multiLanguage": "Multi Language",
+		"onlyEnglish": "Only English",
+		"tinyDescription": ""
+	},
+	"home": {
+		"localFile": "Local File"
+	}
+}
