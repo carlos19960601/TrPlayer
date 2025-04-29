@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { AppSettingsProviderContext } from "../context";
 
-const Landing = () => {
+const LandingPage = () => {
 	const { initialized, language } = useContext(AppSettingsProviderContext);
 	const [started, setStarted] = useState(false);
 
@@ -27,4 +27,4 @@ const Landing = () => {
 	}
 };
 
-export default Landing;
+export default LandingPage;

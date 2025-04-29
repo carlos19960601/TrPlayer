@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { AppSettingsProviderContext } from "@/renderer/context";
 import { t } from "i18next";
-import { HomeIcon, LucideIcon, YoutubeIcon } from "lucide-react";
+import { HomeIcon, LucideIcon } from "lucide-react";
 import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button, ScrollArea } from "../ui";
@@ -14,7 +14,7 @@ const Sidebar = () => {
 	return (
 		<div
 			className={cn(
-				"h-full transition-all border-r flex flex-col",
+				"h-full transition-all border-r flex flex-col bg-muted/80",
 				isSidebarCollapsed
 					? "w-sidebar-collapsed-width"
 					: "w-sidebar-expanded-width",
@@ -46,7 +46,7 @@ const Sidebar = () => {
 const SidebarHeader = (props: { isCollapsed: boolean }) => {
 	const { isCollapsed } = props;
 	return (
-		<div className="flex justify-center py-3 gap-2">
+		<div className="flex justify-center py-6 gap-2">
 			<img src="assets/icon.png" className="size-8" />
 			{!isCollapsed && <span className="text-lg font-bold">DuoPlayer</span>}
 		</div>
@@ -64,7 +64,6 @@ const SidebarItem = (props: {
 	return (
 		<Link to={href} className="px-1">
 			<Button
-				size="sm"
 				variant={active ? "default" : "ghost"}
 				className={cn(
 					"w-full",

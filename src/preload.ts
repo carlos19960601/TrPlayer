@@ -52,4 +52,9 @@ contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
       return ipcRenderer.invoke("user-settings-set", key, value);
     },
   },
+  videos: {
+    create: (uri: string) => {
+      return ipcRenderer.invoke("videos-create", uri)
+    }
+  }
 })

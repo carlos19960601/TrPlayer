@@ -1,6 +1,10 @@
 {
 	"download": "Download",
 	"cancel": "Cancel",
+	"transcribe": "Transcribe",
+	"unsupportedMediaType": "Unsupported media type",
+	"preparingMedia": "Preparing media",
+	"itMayTakeAWhileToPrepareForTheFirstLoad": "It may take a while to prepare for the first load. Please be patient.",
 	"sidebar": {
 		"home": "Home",
 		"medias": "Medias"
@@ -23,7 +27,11 @@
 	},
 	"language": {
 		"changeLanguage": "Language",
+		"searchPlaceholder": "Search for a language",
+		"emptyResults": "No languages found",
+		"auth": "Auto",
 		"en": "English",
+		"zh": "Simplified Chinese",
 		"zh-CN": "简体中文"
 	},
 	"model": {
@@ -33,7 +41,18 @@
 		"all": "All Models",
 		"multiLanguage": "Multi Language",
 		"onlyEnglish": "Only English",
-		"tinyDescription": ""
+		"tinyDescription": "Fast, low quality(77.7MB)",
+		"baseDescription": "Fast, high quality(148MB)",
+		"smallDescription": "Balanced, better quality(488MB)",
+		"tinyEnDescription": "Fast, low quality(77.7MB)",
+		"language": "Language",
+		"transcribe": "Transcribe Model"
+	},
+	"models": {
+		"audio": {
+			"fileNotFound": "File not found {{file}}",
+			"fileNotSupported": "File not supported {{file}}"
+		}
 	},
 	"home": {
 		"localFile": "Local File"

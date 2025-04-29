@@ -35,3 +35,10 @@ type DownloadStateType = {
 };
 
 
+type TranscribeConfigType = {
+  model: string;
+  language: LanguageType;
+}
+
+
+type MediaType = "Audio" | "Video" | "Unknown"

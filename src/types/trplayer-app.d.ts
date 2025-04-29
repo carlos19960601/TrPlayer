@@ -7,6 +7,9 @@ type TrPlayerType = {
     getModelPath: () => Promise<string>;
     setModelPath: (path: string) => Promise<void>;
   },
+  audios: {
+    create: (uri: string) => Promise<AudioType>
+  },
   db: {
     connect: () => Promise<DbState>,
   },
@@ -36,4 +39,7 @@ type TrPlayerType = {
     get: (key: UserSettingKeyEnum) => Promise<any>;
     set: (key: UserSettingKeyEnum, value: any) => Promise<void>;
   },
+  videos: {
+    create: (uri: string) => Promise<VideoType>
+  }
 }

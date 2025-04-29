@@ -1,13 +1,15 @@
 import { AppSettingsProviderContext } from "@renderer/context/app-settings-provider";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ChooseLocalFile from "../components/medias/choose-local-file";
 
-const Home = () => {
+const HomePage = () => {
 	const { TrPlayerApp } = useContext(AppSettingsProviderContext);
 	const [platformInfo, setPlatformInfo] = useState<PlatformInfoType>();
-
+	const navigate = useNavigate();
 	useEffect(() => {
 		TrPlayerApp.app.getPlatformInfo().then(setPlatformInfo);
+		navigate("/videos/3d629c9c-bc37-5535-93cf-d22d8b9e8a39");
 	}, []);
 
 	return (
@@ -19,4 +21,4 @@ const Home = () => {
 	);
 };
 
-export default Home;
+export default HomePage;

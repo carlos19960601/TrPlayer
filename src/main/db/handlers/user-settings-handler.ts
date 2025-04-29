@@ -1,10 +1,10 @@
 import { UserSettingKeyEnum } from "@/types/enums";
 import db from "@main/db";
 import { UserSetting } from "@main/db/models";
-import { ipcMain, IpcMainEvent } from "electron";
+import { IpcMainEvent, IpcMainInvokeEvent, ipcMain } from "electron";
 
 class UserSettingsHandler {
-  private async get(_event: IpcMainEvent, key: UserSettingKeyEnum) {
+  private async get(_event: IpcMainInvokeEvent, key: UserSettingKeyEnum) {
     return await UserSetting.get(key);
   }
 

@@ -1,0 +1,7 @@
+type VideoType = {
+  mediaType: MediaType;
+  id: string;
+  md5: string;
+  source: string;
+  src?: string;
+}

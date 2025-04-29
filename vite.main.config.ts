@@ -22,9 +22,9 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: `lib/youtubedr/${process.env.PACKAGE_OS_ARCH || os.arch()
+          src: `lib/whisper/${process.env.PACKAGE_OS_ARCH || os.arch()
             }/${os.platform()}/*`,
-          dest: "lib/youtubedr",
+          dest: "lib/whisper",
         },
       ]
     }),

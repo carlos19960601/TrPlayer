@@ -1,6 +1,6 @@
 import { UserSettingKeyEnum } from "@/types/enums";
-import { userSettingsHandler } from "@main/db/handlers";
-import { UserSetting } from "@main/db/models";
+import { userSettingsHandler, videosHandler } from "@main/db/handlers";
+import { Audio, UserSetting, Video } from "@main/db/models";
 import { i18n } from "@main/i18n";
 import log from "@main/logger";
 import settings from "@main/settings";
@@ -12,6 +12,7 @@ const logger = log.scope("DB");
 
 const handlers = [
   userSettingsHandler,
+  videosHandler,
 ]
 
 class DBWrapper {
@@ -43,7 +44,9 @@ class DBWrapper {
         dialect: "sqlite",
         storage: dbPath,
         models: [
+          Audio,
           UserSetting,
+          Video,
         ],
       });
 
