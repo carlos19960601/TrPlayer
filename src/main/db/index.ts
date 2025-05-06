@@ -1,16 +1,20 @@
 import { UserSettingKeyEnum } from "@/types/enums";
-import { userSettingsHandler, videosHandler } from "@main/db/handlers";
-import { Audio, UserSetting, Video } from "@main/db/models";
+import { transcriptionsHandler, userSettingsHandler, videosHandler } from "@main/db/handlers";
+import { Transcription, UserSetting, Video } from "@main/db/models";
 import { i18n } from "@main/i18n";
 import log from "@main/logger";
 import settings from "@main/settings";
 import { ipcMain } from "electron";
+import fs from "fs-extra";
+import path from "node:path";
 import { Sequelize } from "sequelize-typescript";
+import { SequelizeStorage, Umzug } from "umzug";
 
 const __dirname = import.meta.dirname;
 const logger = log.scope("DB");
 
 const handlers = [
+  transcriptionsHandler,
   userSettingsHandler,
   videosHandler,
 ]
@@ -44,11 +48,40 @@ class DBWrapper {
         dialect: "sqlite",
         storage: dbPath,
         models: [
-          Audio,
+          // Audio,
+          Transcription,
           UserSetting,
           Video,
         ],
       });
+
+      const umzug = new Umzug({
+        migrations: {
+          glob: ["migrations/*.js", { cwd: __dirname }],
+        },
+        context: sequelize.getQueryInterface(),
+        storage: new SequelizeStorage({ sequelize }),
+        logger: logger
+      })
+      const pendingMigrations = await umzug.pending();
+      logger.info(pendingMigrations);
+      if (pendingMigrations.length > 0) {
+        try {
+          await this.backup({ force: true })
+        } catch (err) {
+          logger.error(err);
+        }
+
+        try {
+          // migrate up to the latest state
+          await umzug.up();
+        } catch (err) {
+          logger.error(err)
+          throw err
+        }
+      } else {
+        await this.backup()
+      }
 
       await sequelize.sync();
       await sequelize.authenticate();
@@ -71,6 +104,40 @@ class DBWrapper {
     } finally {
       this.isConnecting = false;
     }
+  }
+
+
+  async backup(options?: { force: boolean }) {
+    const force = options?.force ?? false
+
+    const dbPath = settings.dbPath()
+    if (!dbPath) {
+      logger.error("Db path is not ready");
+      return
+    }
+
+    const backupPath = path.join(settings.libraryPath(), "backup")
+    fs.ensureDirSync(backupPath)
+
+    const backupFiles = fs.readdirSync(backupPath).filter((file) => file.startsWith(path.basename(dbPath))).sort()
+
+    // Check if the last backup is older than 1 day
+    const lastBackup = backupFiles.pop()
+    const timestamp = lastBackup?.match(/\d{13}/)?.[0]
+
+    if (!force && lastBackup && timestamp && new Date(parseInt(timestamp)) > new Date(Date.now() - 1000 * 60 * 60 * 24)) {
+      logger.info(`Backup is up to date: ${lastBackup}`);
+      return;
+    }
+
+    // Only keep the latest 10 backups
+    if (backupFiles.length >= 10) {
+      fs.removeSync(path.join(backupPath, backupFiles[0]))
+    }
+
+    const backupFilePath = path.join(backupPath, `${path.basename(dbPath)}.${Date.now().toString().padStart(13, "0")}`)
+    fs.copySync(dbPath, backupFilePath)
+    logger.info(`Backup created at ${backupFilePath}`);
   }
 
   registerIpcHandlers() {

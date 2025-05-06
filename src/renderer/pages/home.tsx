@@ -9,7 +9,7 @@ const HomePage = () => {
 	const navigate = useNavigate();
 	useEffect(() => {
 		TrPlayerApp.app.getPlatformInfo().then(setPlatformInfo);
-		navigate("/videos/3d629c9c-bc37-5535-93cf-d22d8b9e8a39");
+		// navigate("/videos/3d629c9c-bc37-5535-93cf-d22d8b9e8a39");
 	}, []);
 
 	return (

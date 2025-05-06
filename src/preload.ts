@@ -44,6 +44,14 @@ contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
   shell: {
     openPath: (path: string) => ipcRenderer.invoke("shell-open-path", path),
   },
+  transcriptions: {
+    findOrCreate: (params: any) => {
+      return ipcRenderer.invoke("transcriptions-find-or-create", params)
+    },
+    update: (id: string, params: any) => {
+      return ipcRenderer.invoke("transcriptions-update", id, params)
+    },
+  },
   userSettings: {
     get: (key: string) => {
       return ipcRenderer.invoke("user-settings-get", key);
@@ -53,6 +61,9 @@ contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
     },
   },
   videos: {
+    findOne: (params: any) => {
+      return ipcRenderer.invoke("videos-find-one", params)
+    },
     create: (uri: string) => {
       return ipcRenderer.invoke("videos-create", uri)
     }

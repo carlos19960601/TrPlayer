@@ -1,30 +1,42 @@
 import { AppSettingsProviderContext } from "@renderer/context";
 import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranscriptions } from "./use-transcriptions";
 
 type MediaShadowProviderState = {
 	media: AudioType | VideoType;
-	decoded: boolean;
-	decodeError: string;
+	setMedia: (media: AudioType | VideoType) => void;
+	onCancel: () => void;
+	transcription: TranscriptionType;
 };
 
 export const MediaShadowProviderContext =
 	createContext<MediaShadowProviderState>(null);
 
-export const MediaShadowProvider = ({ children }: PropsWithChildren) => {
+interface MediaShadowProviderProps {
+	onCancel?: () => void;
+}
+
+export const MediaShadowProvider = ({
+	children,
+	onCancel,
+}: PropsWithChildren<MediaShadowProviderProps>) => {
 	const { TrPlayerApp } = useContext(AppSettingsProviderContext);
 
+	const navigate = useNavigate();
+
 	const [media, setMedia] = useState<AudioType | VideoType>(null);
-	const [decodeError, setDecodeError] = useState<string>(null);
 
 	//  Player state
-	const [decoded, setDecoded] = useState(false);
+	const { transcription } = useTranscriptions(media);
 
 	return (
 		<MediaShadowProviderContext.Provider
 			value={{
 				media,
-				decoded,
-				decodeError,
+				setMedia,
+				onCancel: onCancel || (() => navigate(-1)),
+				transcription,
 			}}
 		>
 			{children}

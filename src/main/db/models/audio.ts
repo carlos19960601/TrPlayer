@@ -29,7 +29,13 @@ export class Audio extends Model {
   source: string;
 
   @Column(DataType.STRING)
-  originalFilePath: string;
+  filePath: string;
+
+
+  @Column(DataType.VIRTUAL)
+  get mediaType(): string {
+    return "Audio"
+  }
 
   static async buildFromLocalFile(filePath: string): Promise<Audio> {
     try {

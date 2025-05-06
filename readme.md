@@ -119,3 +119,21 @@ Sips -z 1024 1024 icon.png -o icons.iconset/icon_512x512@2x.png
 ```shell
 iconutil -c icns icons.iconset -o icon.icns
 ```
+
+Dialog用法
+
+```tsx
+{/* Dialog的常用方式 */}
+<Dialog open={open} onOpenChange={setOpen}>
+  <DialogContent
+    className="[&>button:last-child]:hidden"
+    onInteractOutside={(e) => e.preventDefault()}
+  >
+    <DialogTitle className="sr-only" />
+    <DialogDescription className="sr-only">
+      Edit transcription configuration
+    </DialogDescription>
+    <TranscribeConfigForm onSubmit={handleSubmit} />
+  </DialogContent>
+</Dialog>
+```

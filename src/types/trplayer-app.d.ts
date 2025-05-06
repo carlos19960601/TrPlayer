@@ -35,11 +35,16 @@ type TrPlayerType = {
   shell: {
     openPath: (path: string) => Promise<void>;
   },
+  transcriptions: {
+    findOrCreate: (params: any) => Promise<TranscriptionType>;
+    update: (id: string, params: any) => Promise<void>;
+  },
   userSettings: {
     get: (key: UserSettingKeyEnum) => Promise<any>;
     set: (key: UserSettingKeyEnum, value: any) => Promise<void>;
   },
   videos: {
-    create: (uri: string) => Promise<VideoType>
+    findOne: (params: any) => Promise<VideoType | null>;
+    create: (uri: string) => Promise<VideoType>;
   }
 }

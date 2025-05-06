@@ -10,7 +10,8 @@
 		"package": "electron-forge package",
 		"make": "electron-forge make",
 		"publish": "electron-forge publish",
-		"lint": "biome lint ./src"
+		"lint": "biome lint ./src",
+		"create-migration": "zx ./src/main/db/create-migration.mjs"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
@@ -30,13 +31,15 @@
 		"@types/react-dom": "^19.0.4",
 		"@types/validator": "^13.12.3",
 		"autoprefixer": "^10.4.21",
+		"chalk": "^5.4.1",
 		"electron": "^35.1.2",
 		"electron-log": "^5.3.3",
 		"tailwindcss": "^4.0.17",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.8.2",
 		"vite": "^6.2.3",
-		"vite-plugin-static-copy": "^2.3.0"
+		"vite-plugin-static-copy": "^2.3.0",
+		"zx": "^8.5.3"
 	},
 	"keywords": [],
 	"author": {
@@ -81,6 +84,7 @@
 		"tailwind-merge": "^3.0.2",
 		"tailwindcss-animate": "^1.0.7",
 		"tw-animate-css": "^1.2.5",
+		"umzug": "^3.8.2",
 		"uuid": "^11.1.0",
 		"zod": "^3.24.2"
 	}

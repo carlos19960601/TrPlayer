@@ -51,7 +51,13 @@
 	"models": {
 		"audio": {
 			"fileNotFound": "File not found {{file}}",
-			"fileNotSupported": "File not supported {{file}}"
+			"fileNotSupported": "File not supported {{file}}",
+			"notFound": "Audio not found"
+		},
+		"video": {
+			"fileNotFound": "File not found {{file}}",
+			"fileNotSupported": "File not supported {{file}}",
+			"notFound": "Video not found"
 		}
 	},
 	"home": {

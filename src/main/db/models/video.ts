@@ -7,7 +7,7 @@ import path from "node:path";
 import { Column, DataType, Default, IsUUID, Model, Table, Unique } from "sequelize-typescript";
 import { v5 as uuidv5 } from "uuid";
 
-const logger = log.scope("db/models/audio");
+const logger = log.scope("db/models/video");
 
 @Table({
   modelName: "Video",
@@ -35,6 +35,11 @@ export class Video extends Model<Video> {
 
   @Column(DataType.STRING)
   filePath: string;
+
+  @Column(DataType.VIRTUAL)
+  get mediaType(): string {
+    return "Video"
+  }
 
 
   static async buildFromLocalFile(filePath: string, params?: { source?: string; }): Promise<Video> {

@@ -1,11 +1,22 @@
 import log from "@/main/logger";
 import { Video } from "@main/db/models";
 import { IpcMainInvokeEvent, ipcMain } from "electron";
+import { Attributes, WhereOptions } from "sequelize";
 
 
 const logger = log.scope("db/handlers/videos-handler");
 
 class VideosHandler {
+  private async findOne(_event: IpcMainInvokeEvent, where: WhereOptions<Attributes<Video>>): Promise<Video | null> {
+    const video = await Video.findOne({
+      where,
+    })
+
+    if (!video) return;
+
+    return video.toJSON()
+  }
+
   private async create(_event: IpcMainInvokeEvent, uri: string) {
     logger.info("Creating video...", { uri });
 
@@ -28,6 +39,7 @@ class VideosHandler {
   }
 
   register() {
+    ipcMain.handle("videos-find-one", this.findOne);
     ipcMain.handle("videos-create", this.create);
   }
 

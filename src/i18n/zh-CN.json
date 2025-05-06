@@ -53,7 +53,13 @@
 	"models": {
 		"audio": {
 			"fileNotFound": "无法访问文件 {{file}}",
-			"fileNotSupported": "文件不支持 {{file}}"
+			"fileNotSupported": "文件不支持 {{file}}",
+			"notFound": "未找到音频"
+		},
+		"video": {
+			"fileNotFound": "无法访问文件 {{file}}",
+			"fileNotSupported": "文件不支持 {{file}}",
+			"notFound": "未找到视频"
 		}
 	},
 	"home": {

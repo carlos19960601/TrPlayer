@@ -26,6 +26,10 @@ export default defineConfig({
             }/${os.platform()}/*`,
           dest: "lib/whisper",
         },
+        {
+          src: "src/main/db/migrations/*",
+          dest: "migrations"
+        }
       ]
     }),
   ],
