@@ -1,8 +1,10 @@
 import db from "@main/db";
 import downloader from "@main/downloader";
+import ffmpeg from "@main/ffmpeg";
 import log from "@main/logger";
 import model from "@main/model";
 import settings from "@main/settings";
+import whisper from "@main/whisper";
 import { BrowserWindow, IpcMainInvokeEvent, OpenDialogSyncOptions, dialog, ipcMain, shell } from "electron";
 import path from 'path';
 
@@ -28,6 +30,10 @@ class WindowWrapper {
     model.registerIpcHandlers();
     // Downloader
     downloader.registerIpcHandlers();
+    // ffmpeg
+    ffmpeg.registerIpcHandlers();
+    // whisper
+    whisper.registerIpcHandlers()
 
     // App Options
     ipcMain.handle("app-platform-info", () => {

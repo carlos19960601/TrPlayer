@@ -4,8 +4,9 @@ import { hashFile } from "@/main/utils";
 import fs from "fs-extra";
 import { t } from "i18next";
 import path from "node:path";
-import { Column, DataType, Default, IsUUID, Model, Table, Unique } from "sequelize-typescript";
+import { Column, DataType, Default, HasOne, IsUUID, Model, Table, Unique } from "sequelize-typescript";
 import { v5 as uuidv5 } from "uuid";
+import { Transcription } from "./transcription";
 
 const logger = log.scope("db/models/video");
 
@@ -39,6 +40,26 @@ export class Video extends Model<Video> {
   @Column(DataType.VIRTUAL)
   get mediaType(): string {
     return "Video"
+  }
+
+  @HasOne(() => Transcription, {
+    foreignKey: "targetId",
+    constraints: false,
+    scope: {
+      where: {
+        target_type: "Video",
+      }
+    }
+  })
+  transcription: Transcription;
+
+  @Column(DataType.VIRTUAL)
+  get src(): string {
+    if (this.filePath) {
+      return this.filePath
+    }
+
+    return null;
   }
 
 

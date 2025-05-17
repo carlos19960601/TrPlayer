@@ -2,6 +2,8 @@
 type TrPlayerType = {
   app: {
     getPlatformInfo: () => Promise<PlatformInfoType>;
+    onCmdOutput: (callback: (event, output: string) => void) => void;
+    removeCmdOutputListeners: () => void;
   },
   appSettings: {
     getModelPath: () => Promise<string>;
@@ -27,6 +29,11 @@ type TrPlayerType = {
     }) => Promise<string | undefined>;
     removeAllListeners: () => void;
   },
+  ffmpeg: {
+    transcode: (
+      input: string
+    ) => Promise<string>;
+  },
   model: {
     getModels: () => Promise<ModelType[]>;
     download: (model: ModelType) => Promise<void>;
@@ -37,7 +44,8 @@ type TrPlayerType = {
   },
   transcriptions: {
     findOrCreate: (params: any) => Promise<TranscriptionType>;
-    update: (id: string, params: any) => Promise<void>;
+    findAll: (params: any) => Promise<TranscriptionType[]>;
+    update: (id: string, params: Partial<Omit<TranscriptionType, "id">>) => Promise<void>;
   },
   userSettings: {
     get: (key: UserSettingKeyEnum) => Promise<any>;
@@ -46,5 +54,12 @@ type TrPlayerType = {
   videos: {
     findOne: (params: any) => Promise<VideoType | null>;
     create: (uri: string) => Promise<VideoType>;
+  },
+  whisper: {
+    recognize: (params: {
+      url: string,
+      language: string,
+      model: string,
+    }) => Promise<RecognitionResult>
   }
 }

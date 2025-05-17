@@ -2,9 +2,14 @@
 	"download": "下载",
 	"cancel": "取消",
 	"transcribe": "转写",
+	"transcribing": "正在语音转文本",
 	"unsupportedMediaType": "不支持的媒体文件",
 	"preparingMedia": "正在准备媒体文件",
 	"itMayTakeAWhileToPrepareForTheFirstLoad": "首次加载可能需要一些时间，请耐心等候",
+	"continue": "继续",
+	"all": "全部",
+	"video": "视频",
+	"audio": "音频",
 	"sidebar": {
 		"home": "主页",
 		"medias": "媒体"

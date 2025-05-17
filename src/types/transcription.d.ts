@@ -4,14 +4,11 @@ type TranscriptionType = {
   targetType: string;
   state: "pending" | "processing" | "finished";
   model: string;
-  language?: string;
-  result: AlignmentResult;
+  language: string;
+  recognitionResult?: RecognitionResult;
+  filename: string;
+  createdAt: Date;
 }
-
-type AlignmentResult = {
-  timeline: Timeline;
-}
-
 
 type Timeline = TimelineEntry[];
 
@@ -20,3 +17,9 @@ type TimelineEntry = {
   startTime: number;
   endTime: number;
 }
+
+type RecognitionResult = {
+  language: string;
+  timeline: Timeline;
+}
+

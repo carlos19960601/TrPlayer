@@ -7,7 +7,15 @@ contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
   app: {
     getPlatformInfo: () => {
       return ipcRenderer.invoke("app-platform-info")
-    }
+    },
+    onCmdOutput: (
+      callback: (event: IpcRendererEvent, data: string) => void
+    ) => {
+      ipcRenderer.on("app-on-cmd-output", callback);
+    },
+    removeCmdOutputListeners: () => {
+      ipcRenderer.removeAllListeners("app-on-cmd-output");
+    },
   },
   appSettings: {
     getModelPath: () => {
@@ -36,6 +44,11 @@ contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
     removeAllListeners: () =>
       ipcRenderer.removeAllListeners("download-on-state"),
   },
+  ffmpeg: {
+    transcode: (input: string) => {
+      return ipcRenderer.invoke("ffmpeg-transcode", input);
+    },
+  },
   model: {
     getModels: () => ipcRenderer.invoke("model-list"),
     download: (model: ModelType) => ipcRenderer.invoke("model-download-start", model),
@@ -47,6 +60,9 @@ contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
   transcriptions: {
     findOrCreate: (params: any) => {
       return ipcRenderer.invoke("transcriptions-find-or-create", params)
+    },
+    findAll: (params: any) => {
+      return ipcRenderer.invoke("transcriptions-find-all", params);
     },
     update: (id: string, params: any) => {
       return ipcRenderer.invoke("transcriptions-update", id, params)
@@ -66,6 +82,15 @@ contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
     },
     create: (uri: string) => {
       return ipcRenderer.invoke("videos-create", uri)
+    }
+  },
+  whisper: {
+    recognize: (params: {
+      url: string,
+      language: string,
+      model: string,
+    }) => {
+      return ipcRenderer.invoke("whisper-recognize", params)
     }
   }
 })

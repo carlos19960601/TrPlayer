@@ -14,7 +14,7 @@ import { TranscriptionCreateForm } from "../transcriptions/transcription-create-
 export const MediaLoadingModal = () => {
 	const { transcription } = useContext(MediaShadowProviderContext);
 	return (
-		<AlertDialog open={!transcription?.result?.timeline}>
+		<AlertDialog open={!transcription?.recognitionResult?.timeline}>
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>{t("preparingMedia")}</AlertDialogTitle>
@@ -29,27 +29,28 @@ export const MediaLoadingModal = () => {
 };
 
 const LoadingContent = () => {
-	const { transcription, onCancel } = useContext(MediaShadowProviderContext);
+	const {
+		transcribing,
+		transcription,
+		transcribingProgress,
+		transcribingOutput,
+		generateTranscription,
+		onCancel,
+	} = useContext(MediaShadowProviderContext);
 
-	if (transcription && !transcription.result?.timeline) {
+	if (transcription && !transcription.recognitionResult?.timeline) {
 		return (
 			<TranscriptionCreateForm
+				transcribing={transcribing}
+				transcribingProgress={transcribingProgress}
+				transcribingOutput={transcribingOutput}
 				onSubmit={(data) => {
-					//
+					generateTranscription({
+						language: data.language,
+						model: data.model,
+					});
 				}}
-				// originalText={transcription?.result?.originalText}
-				// onSubmit={(data) => {
-				// 	generateTranscription({
-				// 		originalText: data.text,
-				// 		language: data.language,
-				// 		service: data.service as SttEngineOptionEnum | "upload",
-				// 		isolate: data.isolate,
-				// 	});
-				// }}
-				// onCancel={onCancel}
-				// transcribing={transcribing}
-				// transcribingProgress={transcribingProgress}
-				// transcribingOutput={transcribingOutput}
+				onCancel={onCancel}
 			/>
 		);
 	} else {

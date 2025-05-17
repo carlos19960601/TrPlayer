@@ -14,6 +14,7 @@ import {
 	FormField,
 	FormItem,
 	FormLabel,
+	PingPoint,
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
@@ -28,6 +29,7 @@ import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Progress } from "../ui/progress";
 
 const transcriptionSchema = z.object({
 	language: z.string(),
@@ -36,8 +38,18 @@ const transcriptionSchema = z.object({
 
 export const TranscriptionCreateForm = (props: {
 	onSubmit: (data: z.infer<typeof transcriptionSchema>) => void;
+	onCancel?: () => void;
+	transcribing: boolean;
+	transcribingProgress: number;
+	transcribingOutput: string;
 }) => {
-	const { onSubmit } = props;
+	const {
+		transcribing = false,
+		transcribingProgress,
+		transcribingOutput,
+		onSubmit,
+		onCancel,
+	} = props;
 	const { models } = useContext(ModelProviderContext);
 
 	const languages = [
@@ -145,11 +157,47 @@ export const TranscriptionCreateForm = (props: {
 						)}
 					/>
 
+					<TranscribeProgress
+						transcribing={transcribing}
+						transcribingProgress={transcribingProgress}
+						transcribingOutput={transcribingOutput}
+					/>
+
 					<div className="flex justify-end space-x-4">
-						
+						{onCancel && (
+							<Button variant="outline" onClick={onCancel}>
+								{t("cancel")}
+							</Button>
+						)}
+						<Button type="submit">{t("continue")}</Button>
 					</div>
 				</div>
 			</form>
 		</Form>
+	);
+};
+
+const TranscribeProgress = (props: {
+	transcribing: boolean;
+	transcribingProgress: number;
+	transcribingOutput?: string;
+}) => {
+	const { transcribing, transcribingProgress, transcribingOutput } = props;
+
+	if (!transcribing) return null;
+
+	return (
+		<div>
+			<div className="flex items-center space-x-4 mb-2">
+				<PingPoint colorClassName="bg-yellow-500" />
+				<span>{t("transcribing")}</span>
+			</div>
+			{transcribingProgress > 0 && <Progress value={transcribingProgress} />}
+			{transcribingOutput && (
+				<div>
+					<code>{transcribingOutput}</code>
+				</div>
+			)}
+		</div>
 	);
 };

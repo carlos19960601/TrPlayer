@@ -33,8 +33,7 @@ async function up({ context: queryInterface }) {
 			model: {
 				type: DataTypes.STRING,
 			},
-
-			result: {
+			recognition_result: {
 				type: DataTypes.JSON,
 			},
 			created_at: {

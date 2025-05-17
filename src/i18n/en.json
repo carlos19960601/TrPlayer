@@ -2,9 +2,15 @@
 	"download": "Download",
 	"cancel": "Cancel",
 	"transcribe": "Transcribe",
+	"transcribing": "Transcribing",
 	"unsupportedMediaType": "Unsupported media type",
 	"preparingMedia": "Preparing media",
 	"itMayTakeAWhileToPrepareForTheFirstLoad": "It may take a while to prepare for the first load. Please be patient.",
+	"continue": "Continue",
+	"all": "All",
+	"video": "Video",
+	"audio": "Audio",
+	"languageCode": "Language Code",
 	"sidebar": {
 		"home": "Home",
 		"medias": "Medias"

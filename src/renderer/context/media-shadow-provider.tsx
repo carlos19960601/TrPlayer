@@ -1,13 +1,20 @@
 import { AppSettingsProviderContext } from "@renderer/context";
+import { useTranscriptions } from "@renderer/hooks/use-transcriptions";
 import { PropsWithChildren, createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTranscriptions } from "./use-transcriptions";
 
 type MediaShadowProviderState = {
 	media: AudioType | VideoType;
 	setMedia: (media: AudioType | VideoType) => void;
 	onCancel: () => void;
 	transcription: TranscriptionType;
+	transcribing: boolean;
+	transcribingProgress: number;
+	transcribingOutput: string;
+	generateTranscription: (params?: {
+		language?: string;
+		model?: string;
+	}) => Promise<void>;
 };
 
 export const MediaShadowProviderContext =
@@ -28,7 +35,13 @@ export const MediaShadowProvider = ({
 	const [media, setMedia] = useState<AudioType | VideoType>(null);
 
 	//  Player state
-	const { transcription } = useTranscriptions(media);
+	const {
+		transcription,
+		generateTranscription,
+		transcribing,
+		transcribingProgress,
+		transcribingOutput,
+	} = useTranscriptions(media);
 
 	return (
 		<MediaShadowProviderContext.Provider
@@ -37,6 +50,10 @@ export const MediaShadowProvider = ({
 				setMedia,
 				onCancel: onCancel || (() => navigate(-1)),
 				transcription,
+				transcribing,
+				transcribingProgress,
+				transcribingOutput,
+				generateTranscription,
 			}}
 		>
 			{children}
