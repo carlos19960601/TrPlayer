@@ -4,6 +4,8 @@ import HomePage from "@renderer/pages/home";
 import VideoPage from "@renderer/pages/video";
 import { createHashRouter } from "react-router-dom";
 import { Layout } from "./components/layouts";
+import LandingPage from "./pages/landing";
+import { ProtectedPage } from "./pages/protected-page";
 
 export default createHashRouter([
 	{
@@ -11,7 +13,15 @@ export default createHashRouter([
 		element: <Layout />,
 		errorElement: <ErrorPage />,
 		children: [
-			{ index: true, element: <HomePage /> },
+			{ path: "/landing", element: <LandingPage /> },
+			{
+				index: true,
+				element: (
+					<ProtectedPage>
+						<HomePage />
+					</ProtectedPage>
+				),
+			},
 			{
 				path: "audios/:id",
 				element: <AudioPage />,

@@ -14,6 +14,10 @@ type TrPlayerType = {
   },
   db: {
     connect: () => Promise<DbState>,
+    onTransaction: (
+      callback: (event, state: TransactionStateType) => void
+    ) => Promise<void>;
+    removeListeners: () => Promise<void>;
   },
   dialog: {
     showOpenDialog: (
@@ -46,6 +50,7 @@ type TrPlayerType = {
     findOrCreate: (params: any) => Promise<TranscriptionType>;
     findAll: (params: any) => Promise<TranscriptionType[]>;
     update: (id: string, params: Partial<Omit<TranscriptionType, "id">>) => Promise<void>;
+    destroy: (id: string) => Promise<undefined>;
   },
   userSettings: {
     get: (key: UserSettingKeyEnum) => Promise<any>;

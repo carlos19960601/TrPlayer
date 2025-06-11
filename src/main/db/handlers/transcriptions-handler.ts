@@ -2,6 +2,7 @@ import log from "@/main/logger";
 import { Audio, Video } from "@main/db/models";
 import { Transcription } from "@main/db/models/transcription";
 import { IpcMainInvokeEvent, ipcMain } from "electron";
+import { t } from "i18next";
 import _ from "lodash";
 import { Attributes, FindOptions } from "sequelize";
 
@@ -11,7 +12,7 @@ class TranscriptionsHandler {
 
   private async findOrCreate(event: IpcMainInvokeEvent, where: Transcription) {
     const { targetType, targetId } = where;
-    logger.debug({ targetId, targetType })
+    logger.debug("find or create transcription", { targetId, targetType })
     let target: Video | Audio = null;
     if (targetType === "Video") {
       target = await Video.findByPk(targetId);
@@ -77,12 +78,21 @@ class TranscriptionsHandler {
     })
   }
 
+  private async destroy(_event: IpcMainInvokeEvent, id: string) {
+    const transcription = await Transcription.findByPk(id);
+    if (!transcription) {
+      throw new Error(t("models.transcription.notFound"));
+    }
+    return await transcription.destroy();
+  }
+
 
 
   register() {
     ipcMain.handle("transcriptions-find-or-create", this.findOrCreate);
     ipcMain.handle("transcriptions-find-all", this.findAll)
     ipcMain.handle("transcriptions-update", this.update);
+    ipcMain.handle("transcriptions-destroy", this.destroy);
   }
 
   unregister() {

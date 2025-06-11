@@ -34,6 +34,13 @@ const cachePath = () => {
   return tmpDir;
 };
 
+const storagePath = () => {
+  const tmpDir = path.join(libraryPath(), "storage");
+  fs.ensureDirSync(tmpDir);
+
+  return tmpDir;
+};
+
 
 const dbPath = () => {
   if (!libraryPath()) return null;
@@ -75,6 +82,7 @@ export default {
   libraryPath,
   dbPath,
   cachePath,
+  storagePath,
   modelPath,
   ...settings,
 }

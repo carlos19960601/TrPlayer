@@ -22,9 +22,15 @@ async function up({ context: queryInterface }) {
 			source: {
 				type: DataTypes.STRING,
 			},
+			cover_url: {
+				type: DataTypes.STRING,
+			},
 			file_path: {
 				type: DataTypes.STRING,
 				allowNull: false,
+			},
+			metadata: {
+				type: DataTypes.JSON,
 			},
 			created_at: {
 				type: DataTypes.DATE,

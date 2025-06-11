@@ -29,8 +29,13 @@ export class Audio extends Model {
   source: string;
 
   @Column(DataType.STRING)
+  coverUrl: string;
+
+  @Column(DataType.STRING)
   filePath: string;
 
+  @Column(DataType.JSON)
+  metadata: any;
 
   @Column(DataType.VIRTUAL)
   get mediaType(): string {

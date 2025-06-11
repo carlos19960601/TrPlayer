@@ -42,3 +42,10 @@ type TranscribeConfigType = {
 
 
 type MediaType = "Audio" | "Video" | "Unknown"
+
+type TransactionStateType = {
+  model: string;
+  id: string;
+  action: "create" | "update" | "destroy";
+  record?: VideoType;
+};

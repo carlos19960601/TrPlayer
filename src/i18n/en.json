@@ -11,6 +11,7 @@
 	"video": "Video",
 	"audio": "Audio",
 	"languageCode": "Language Code",
+	"transcript": "Transcript",
 	"sidebar": {
 		"home": "Home",
 		"medias": "Medias"
@@ -59,6 +60,9 @@
 			"fileNotFound": "File not found {{file}}",
 			"fileNotSupported": "File not supported {{file}}",
 			"notFound": "Audio not found"
+		},
+		"transcription": {
+			"notFound": "Transcription not found"
 		},
 		"video": {
 			"fileNotFound": "File not found {{file}}",

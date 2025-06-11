@@ -1,6 +1,6 @@
 import { UserSettingKeyEnum } from "@/types/enums";
 import { transcriptionsHandler, userSettingsHandler, videosHandler } from "@main/db/handlers";
-import { Transcription, UserSetting, Video } from "@main/db/models";
+import { Audio, Transcription, UserSetting, Video } from "@main/db/models";
 import { i18n } from "@main/i18n";
 import log from "@main/logger";
 import settings from "@main/settings";
@@ -48,7 +48,7 @@ class DBWrapper {
         dialect: "sqlite",
         storage: dbPath,
         models: [
-          // Audio,
+          Audio,
           Transcription,
           UserSetting,
           Video,

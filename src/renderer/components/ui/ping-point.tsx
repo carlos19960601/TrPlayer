@@ -5,7 +5,7 @@ export const PingPoint = (props: {
 	size?: number;
 	className?: string;
 }) => {
-	const { colorClassName = "bg-sky-500", size = 2, className } = props;
+	const { colorClassName = "bg-sky-500", size = 4, className } = props;
 
 	return (
 		<span className={cn(`relative flex size-${size}`, className)}>

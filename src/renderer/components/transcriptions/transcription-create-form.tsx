@@ -25,7 +25,7 @@ import {
 	SelectValue,
 } from "@renderer/components/ui";
 import { t } from "i18next";
-import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
+import { CheckIcon, ChevronsUpDownIcon, LoaderIcon } from "lucide-react";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -169,7 +169,10 @@ export const TranscriptionCreateForm = (props: {
 								{t("cancel")}
 							</Button>
 						)}
-						<Button type="submit">{t("continue")}</Button>
+						<Button type="submit" disabled={transcribing}>
+							{transcribing && <LoaderIcon className="size-4 animate-spin" />}
+							{t("continue")}
+						</Button>
 					</div>
 				</div>
 			</form>

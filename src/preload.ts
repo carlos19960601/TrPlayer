@@ -27,6 +27,15 @@ contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
   },
   db: {
     connect: () => ipcRenderer.invoke("db-connect"),
+    onTransaction: (
+      callback: (
+        event: IpcRendererEvent,
+        state: TransactionStateType,
+      ) => void
+    ) => ipcRenderer.on("db-on-transaction", callback),
+    removeListeners: () => {
+      ipcRenderer.removeAllListeners("db-on-transaction");
+    },
   },
   dialog: {
     showOpenDialog: (options: Electron.OpenDialogOptions) => ipcRenderer.invoke("dialog-show-open-dialog", options)
@@ -66,6 +75,9 @@ contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
     },
     update: (id: string, params: any) => {
       return ipcRenderer.invoke("transcriptions-update", id, params)
+    },
+    destroy: (id: string) => {
+      return ipcRenderer.invoke("transcriptions-destroy", id);
     },
   },
   userSettings: {

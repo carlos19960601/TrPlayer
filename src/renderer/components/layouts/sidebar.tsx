@@ -14,7 +14,7 @@ const Sidebar = () => {
 	return (
 		<div
 			className={cn(
-				"h-full transition-all border-r flex flex-col bg-muted/80",
+				"h-full transition-all flex flex-col bg-muted/80",
 				isSidebarCollapsed
 					? "w-sidebar-collapsed-width"
 					: "w-sidebar-expanded-width",

@@ -1,27 +1,77 @@
-import { AppSettingsProviderContext } from "@/renderer/context";
+import {
+	AppSettingsProviderContext,
+	DbProviderContext,
+} from "@/renderer/context";
+import { transcriptionsReducer } from "@/renderer/reducers";
 import { Tabs, TabsList, TabsTrigger } from "@renderer/components/ui/tabs";
 import { t } from "i18next";
 import { LayoutGridIcon, LayoutListIcon } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
+import { toast } from "sonner";
 import { TranscriptionCard } from "./transcription-card";
 
 export const TranscriptionsComponent = () => {
+	const { addDblistener, removeDbListener } = useContext(DbProviderContext);
 	const { TrPlayerApp } = useContext(AppSettingsProviderContext);
 	const [layout, setLayout] = useState("grid");
 	const [targetType, setTargetType] = useState("all");
-	const [transcriptions, setTranscriptions] = useState<TranscriptionType[]>([]);
+	const [loading, setLoading] = useState(false);
+
+	const [transcriptions, dispatchTranscriptions] = useReducer(
+		transcriptionsReducer,
+		[],
+	);
 
 	const fetchTranscriptions = async () => {
-		const transcriptions = await TrPlayerApp.transcriptions.findAll({
-			where: {},
-			targetType,
-		});
-		setTranscriptions(transcriptions);
+		if (loading) return;
+
+		setLoading(true);
+
+		TrPlayerApp.transcriptions
+			.findAll({
+				where: {},
+				targetType,
+			})
+			.then((transcriptions) => {
+				dispatchTranscriptions({ type: "set", records: transcriptions });
+			})
+			.catch((err) => {
+				toast.error(err.message);
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 	};
 
 	useEffect(() => {
 		fetchTranscriptions();
 	}, [targetType]);
+
+	const onTranscriptionsUpdate = (event: CustomEvent) => {
+		const { record, action, model } = event.detail || {};
+
+		if (model === "Transcription") {
+			switch (action) {
+				case "create":
+					dispatchTranscriptions({ type: "append", record });
+					break;
+				case "update":
+					dispatchTranscriptions({ type: "update", record });
+					break;
+				case "destroy":
+					dispatchTranscriptions({ type: "destroy", record });
+					break;
+			}
+		}
+	};
+
+	useEffect(() => {
+		addDblistener(onTranscriptionsUpdate);
+
+		return () => {
+			removeDbListener(onTranscriptionsUpdate);
+		};
+	}, []);
 
 	return (
 		<div className="flex flex-col h-full gap-4">
@@ -48,9 +98,12 @@ export const TranscriptionsComponent = () => {
 
 			<div className="">
 				{layout === "grid" && (
-					<div className="grid gap-4 grid-cols-4">
+					<div className="grid gap-4 grid-cols-3 lg:grid-cols-4">
 						{transcriptions.map((transcription) => (
-							<TranscriptionCard transcription={transcription} />
+							<TranscriptionCard
+								transcription={transcription}
+								key={transcription.id}
+							/>
 						))}
 					</div>
 				)}

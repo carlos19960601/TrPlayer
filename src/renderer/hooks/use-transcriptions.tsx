@@ -1,10 +1,14 @@
 import { useTranscribe } from "@/renderer/hooks/use-transcribe";
+import {
+	AppSettingsProviderContext,
+	DbProviderContext,
+} from "@renderer/context";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { AppSettingsProviderContext } from "../context/app-settings-provider";
 
 export const useTranscriptions = (media: AudioType | VideoType) => {
 	const { TrPlayerApp } = useContext(AppSettingsProviderContext);
+	const { addDblistener, removeDbListener } = useContext(DbProviderContext);
 
 	const [creating, setCreating] = useState<boolean>(false);
 	const [transcription, setTranscription] = useState<TranscriptionType>(null);
@@ -55,9 +59,24 @@ export const useTranscriptions = (media: AudioType | VideoType) => {
 				language: language,
 				recognitionResult: result,
 			});
+
+			setTranscribing(false);
 		} catch (err) {
 			setTranscribing(false);
 			toast.error(err.message);
+		}
+	};
+
+	const onTranscriptionUpdate = (event: CustomEvent) => {
+		if (!transcription) return;
+
+		const { model, action, record } = event.detail || {};
+		if (
+			model === "Transcription" &&
+			record.id === transcription.id &&
+			action === "update"
+		) {
+			setTranscription(record);
 		}
 	};
 
@@ -75,20 +94,16 @@ export const useTranscriptions = (media: AudioType | VideoType) => {
 	}, [media]);
 
 	/*
-	 * listen to transcribe progress
+	 * listen to transcription update
 	 */
 	useEffect(() => {
-		if (!transcribing) return;
+		if (!transcription) return;
 
-		TrPlayerApp.app.onCmdOutput((_, output) => {
-			setTranscribingOutput(output);
-		});
-
+		addDblistener(onTranscriptionUpdate);
 		return () => {
-			TrPlayerApp.app.removeCmdOutputListeners();
-			setTranscribingOutput("");
+			removeDbListener(onTranscriptionUpdate);
 		};
-	}, [transcribing]);
+	}, [transcription]);
 
 	return {
 		transcription,

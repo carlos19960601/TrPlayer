@@ -4,6 +4,8 @@ import path from "path";
 
 log.initialize({ preload: true });
 
+log.transports.console.level = "debug";
+
 log.transports.file.level = "info";
 log.transports.file.resolvePathFn = () =>
   path.join(settings.libraryPath(), "logs", "main.log");

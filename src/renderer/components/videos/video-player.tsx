@@ -19,9 +19,5 @@ export const VideoPlayer = (props: {
 
 	if (!video) return null;
 
-	return (
-		<div>
-			<MediaShadowPlayer />
-		</div>
-	);
+	return <MediaShadowPlayer />;
 };

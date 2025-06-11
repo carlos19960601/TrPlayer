@@ -7,6 +7,7 @@ type TranscriptionType = {
   language: string;
   recognitionResult?: RecognitionResult;
   filename: string;
+  coverUrl: string;
   createdAt: Date;
 }
 

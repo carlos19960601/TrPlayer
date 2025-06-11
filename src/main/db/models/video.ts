@@ -1,10 +1,13 @@
 import { VideoFormats } from "@/constants";
+import ffmpeg from "@/main/ffmpeg";
 import log from "@/main/logger";
+import settings from "@/main/settings";
 import { hashFile } from "@/main/utils";
+import mainWindow from "@main/window";
 import fs from "fs-extra";
 import { t } from "i18next";
 import path from "node:path";
-import { Column, DataType, Default, HasOne, IsUUID, Model, Table, Unique } from "sequelize-typescript";
+import { AfterCreate, Column, DataType, Default, HasOne, IsUUID, Model, Table, Unique } from "sequelize-typescript";
 import { v5 as uuidv5 } from "uuid";
 import { Transcription } from "./transcription";
 
@@ -35,7 +38,13 @@ export class Video extends Model<Video> {
   source: string;
 
   @Column(DataType.STRING)
+  coverUrl: string;
+
+  @Column(DataType.STRING)
   filePath: string;
+
+  @Column(DataType.JSON)
+  metadata: any;
 
   @Column(DataType.VIRTUAL)
   get mediaType(): string {
@@ -58,10 +67,29 @@ export class Video extends Model<Video> {
     if (this.filePath) {
       return this.filePath
     }
-
-    return null;
+    return null
   }
 
+  @Column(DataType.VIRTUAL)
+  get duration(): number {
+    return this.getDataValue("metadata").duration
+  }
+
+  @AfterCreate
+  static generateCover(video: Video) {
+    video.generateCover().catch((err) => {
+      logger.error("generate cover error", video.id, err);
+    })
+  }
+
+  async generateCover() {
+    if (this.coverUrl) return;
+
+    logger.info("generate cover for video: ", this.id)
+
+    const coverUrl = await ffmpeg.generateCover(this.filePath, path.join(settings.storagePath(), `${Date.now()}.png`))
+    this.update({ coverUrl: coverUrl })
+  }
 
   static async buildFromLocalFile(filePath: string, params?: { source?: string; }): Promise<Video> {
     try {
@@ -69,6 +97,13 @@ export class Video extends Model<Video> {
     } catch (error) {
       logger.error("access file error: ", error)
       throw new Error(t("models.video.fileNotFound", { file: filePath }))
+    }
+
+    // fetch metadata
+    const fileMetadata = await ffmpeg.generateMetadata(filePath)
+    const metadata = {
+      ...fileMetadata,
+      duration: fileMetadata.format.duration,
     }
 
     const extname = path.extname(filePath).toLowerCase()
@@ -102,11 +137,23 @@ export class Video extends Model<Video> {
       source,
       filePath,
       md5,
+      metadata,
     })
 
     return record.save().catch((err) => {
       logger.error(err);
       throw err
+    })
+  }
+
+  static notify(video: Video, action: "create" | "update" | "destroy") {
+    if (!mainWindow.win) return
+
+    mainWindow.win.webContents.send("db-on-transaction", {
+      model: "Video",
+      id: video.id,
+      action: action,
+      record: video.toJSON(),
     })
   }
 }

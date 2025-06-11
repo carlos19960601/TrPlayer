@@ -15,7 +15,7 @@ import { Preferences } from "../preferences";
 
 interface TitleBarProps {}
 
-const TitleBar = (props: TitleBarProps) => {
+export const TitleBar = (props: TitleBarProps) => {
 	const { TrPlayerApp } = useContext(AppSettingsProviderContext);
 	const [platform, setPlatform] = useState<PlatformType>();
 	const navigate = useNavigate();
@@ -28,7 +28,7 @@ const TitleBar = (props: TitleBarProps) => {
 	}, []);
 
 	return (
-		<div className="fixed top-0 left-0 h-10 w-full flex items-center draggable-region">
+		<div className="fixed top-0 h-10 w-full flex items-center draggable-region">
 			{platform === "darwin" && <div className="w-20" />}
 			<div className="w-full flex justify-between">
 				<Button
@@ -36,7 +36,7 @@ const TitleBar = (props: TitleBarProps) => {
 					size="icon"
 					className={cn(
 						"non-draggable-region",
-						location.pathname === "/" && "invisible",
+						location.pathname === "/" ? "opacity-0" : "opacity-100",
 					)}
 					onClick={() => navigate(-1)}
 				>
@@ -48,10 +48,7 @@ const TitleBar = (props: TitleBarProps) => {
 						<Button
 							variant="ghost"
 							size="icon"
-							className={cn(
-								"non-draggable-region",
-								location.pathname !== "/" && "invisible",
-							)}
+							className="non-draggable-region"
 						>
 							<SettingsIcon />
 						</Button>
@@ -67,5 +64,3 @@ const TitleBar = (props: TitleBarProps) => {
 		</div>
 	);
 };
-
-export default TitleBar;
