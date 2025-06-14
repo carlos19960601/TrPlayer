@@ -72,5 +72,8 @@
 	},
 	"home": {
 		"localFile": "Local File"
+	},
+	"transcription": {
+		"autoScroll": "Auto Scroll"
 	}
 }

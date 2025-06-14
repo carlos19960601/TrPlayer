@@ -12,3 +12,4 @@ export * from "./resizable";
 export * from "./scroll-area";
 export * from "./select";
 export * from "./sonner";
+export * from "./tooltip";

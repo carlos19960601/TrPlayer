@@ -73,5 +73,8 @@
 	},
 	"home": {
 		"localFile": "选择本地媒体"
+	},
+	"transcription": {
+		"autoScroll": "跟随滚动"
 	}
 }
