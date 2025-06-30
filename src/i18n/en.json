@@ -12,9 +12,23 @@
 	"audio": "Audio",
 	"languageCode": "Language Code",
 	"transcript": "Transcript",
+	"apply": "Apply",
+	"stop": "Stop",
+	"translate": "Translation",
+	"form": {
+		"field": {
+			"url": "{{field}} must be a valid URL",
+			"required": "{{field}} is required"
+		}
+	},
 	"sidebar": {
 		"home": "Home",
 		"medias": "Medias"
+	},
+	"translation": {
+		"service": "Translation Service",
+		"targetLanguage": "Target Language",
+		"model": "Model"
 	},
 	"preferences": {
 		"title": "Preferences",
@@ -61,6 +75,13 @@
 			"fileNotSupported": "File not supported {{file}}",
 			"notFound": "Audio not found"
 		},
+		"llmProvider": {
+			"baseUrl": "Base URL",
+			"apiKey": "API Key",
+			"notFound": "LLM Provider not found",
+			"created": "LLM Provider created",
+			"updated": "LLM Provider updated"
+		},
 		"transcription": {
 			"notFound": "Transcription not found"
 		},
@@ -69,6 +90,10 @@
 			"fileNotSupported": "File not supported {{file}}",
 			"notFound": "Video not found"
 		}
+	},
+	"provider": {
+		"baseUrl": "Base URL",
+		"apiKey": "API Key"
 	},
 	"home": {
 		"localFile": "Local File"

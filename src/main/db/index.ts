@@ -1,6 +1,6 @@
 import { UserSettingKeyEnum } from "@/types/enums";
-import { transcriptionsHandler, userSettingsHandler, videosHandler } from "@main/db/handlers";
-import { Audio, Transcription, UserSetting, Video } from "@main/db/models";
+import { llmProvidersHandler, transcriptionsHandler, userSettingsHandler, videosHandler } from "@main/db/handlers";
+import { Audio, LlmProvider, Transcription, UserSetting, Video } from "@main/db/models";
 import { i18n } from "@main/i18n";
 import log from "@main/logger";
 import settings from "@main/settings";
@@ -14,6 +14,7 @@ const __dirname = import.meta.dirname;
 const logger = log.scope("DB");
 
 const handlers = [
+  llmProvidersHandler,
   transcriptionsHandler,
   userSettingsHandler,
   videosHandler,
@@ -49,6 +50,7 @@ class DBWrapper {
         storage: dbPath,
         models: [
           Audio,
+          LlmProvider,
           Transcription,
           UserSetting,
           Video,

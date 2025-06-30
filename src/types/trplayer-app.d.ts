@@ -38,6 +38,12 @@ type TrPlayerType = {
       input: string
     ) => Promise<string>;
   },
+  llmProviders: {
+    create: (params: LlmProviderType) => Promise<LlmProviderType>;
+    update: (id: string, paras: Partial<Omit<LlmProviderType, "id">>) => Promise<void>;
+    findAll: () => Promise<LlmProviderType[]>
+    getOllamaModels: () => Promise<LlmModelType[]>;
+  },
   model: {
     getModels: () => Promise<ModelType[]>;
     download: (model: ModelType) => Promise<void>;

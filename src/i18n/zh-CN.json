@@ -11,9 +11,23 @@
 	"video": "视频",
 	"audio": "音频",
 	"transcript": "转写文稿",
+	"apply": "应用",
+	"stop": "停止",
+	"translate": "翻译",
+	"form": {
+		"field": {
+			"url": "{{field}} 必须是一个有效的 URL",
+			"required": "{{field}} 是必填项"
+		}
+	},
 	"sidebar": {
 		"home": "主页",
 		"medias": "媒体"
+	},
+	"translation": {
+		"service": "翻译服务",
+		"targetLanguage": "目标语言",
+		"model": "模型"
 	},
 	"preferences": {
 		"title": "设置",
@@ -62,6 +76,13 @@
 			"fileNotSupported": "文件不支持 {{file}}",
 			"notFound": "未找到音频"
 		},
+		"llmProvider": {
+			"baseUrl": "Base URL",
+			"apiKey": "API Key",
+			"notFound": "未找到LLM Provider",
+			"created": "LLM Provider创建成功",
+			"updated": "LLM Provider更新成功"
+		},
 		"transcription": {
 			"notFound": "未找到转写结果"
 		},
@@ -70,6 +91,10 @@
 			"fileNotSupported": "文件不支持 {{file}}",
 			"notFound": "未找到视频"
 		}
+	},
+	"provider": {
+		"baseUrl": "Base URL",
+		"apiKey": "API Key"
 	},
 	"home": {
 		"localFile": "选择本地媒体"

@@ -1,4 +1,5 @@
 import { UserSettingKeyEnum } from "@/types/enums";
+import { DbProviderContext } from "@renderer/context";
 import i18n from "@renderer/i18n";
 import {
 	PropsWithChildren,
@@ -7,7 +8,6 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { DbProviderContext } from "./db-provider";
 
 type AppSettingsProviderState = {
 	TrPlayerApp?: TrPlayerType;
@@ -17,6 +17,8 @@ type AppSettingsProviderState = {
 	isSidebarCollapsed?: boolean;
 	switchSidebarCollapsed?: () => void;
 	modelPath?: string;
+	llmProviders?: LlmProviderType[];
+	getLlmProviderById?: (providerId: string) => LlmProviderType;
 };
 
 const initialState: AppSettingsProviderState = {
@@ -33,16 +35,6 @@ export const AppSettingsProvider = ({ children }: PropsWithChildren) => {
 	const [language, setLanguage] = useState<LanguageType>();
 	const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 	const [modelPath, setModelPath] = useState("");
-
-	useEffect(() => {
-		if (db.state === "connected") {
-			fetchLanguages();
-		}
-	}, [db.state]);
-
-	useEffect(() => {
-		fetchModelPath();
-	}, []);
 
 	const switchSidebarCollapsed = () => {
 		setIsSidebarCollapsed(!isSidebarCollapsed);
@@ -71,6 +63,16 @@ export const AppSettingsProvider = ({ children }: PropsWithChildren) => {
 				setLanguage(language);
 			});
 	};
+
+	useEffect(() => {
+		if (db.state === "connected") {
+			fetchLanguages();
+		}
+	}, [db.state]);
+
+	useEffect(() => {
+		fetchModelPath();
+	}, []);
 
 	return (
 		<AppSettingsProviderContext.Provider

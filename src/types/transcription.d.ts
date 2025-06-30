@@ -17,6 +17,7 @@ type TimelineEntry = {
   text: string;
   startTime: number;
   endTime: number;
+  translation?: string;
 }
 
 type RecognitionResult = {

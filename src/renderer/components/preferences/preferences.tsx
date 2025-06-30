@@ -1,9 +1,10 @@
 import { cn } from "@/renderer/lib/utils";
 import { t } from "i18next";
-import { FolderIcon, LanguagesIcon, SettingsIcon } from "lucide-react";
+import { FolderIcon, SettingsIcon } from "lucide-react";
 import { useState } from "react";
 import { Button, ScrollArea } from "../ui";
 import { GeneralSettings } from "./general-settings";
+import { LlmProviderSettings } from "./llm-provider-settings";
 import ModelSettings from "./model-settings";
 
 export const Preferences = () => {
@@ -14,25 +15,31 @@ export const Preferences = () => {
 			value: "general",
 			label: t("preferences.generalSettings"),
 			icon: SettingsIcon,
-			component: () => <GeneralSettings />,
+			component: () => (
+				<ScrollArea className="min-h-full col-span-4 py-6 px-10">
+					<GeneralSettings />
+				</ScrollArea>
+			),
 		},
 		{
-			value: "preferences.ollama",
+			value: "llm-providers",
 			label: t("LLM"),
 			icon: SettingsIcon,
-			component: () => <div>General</div>,
-		},
-		{
-			value: "translations",
-			label: t("preferences.ollamaSettings"),
-			icon: LanguagesIcon,
-			component: () => <div>General</div>,
+			component: () => (
+				<div className="min-h-full col-span-4 py-6 px-10">
+					<LlmProviderSettings />
+				</div>
+			),
 		},
 		{
 			value: "models",
 			label: t("preferences.models"),
 			icon: FolderIcon,
-			component: () => <ModelSettings />,
+			component: () => (
+				<ScrollArea className="min-h-full col-span-4 py-6 px-10">
+					<ModelSettings />
+				</ScrollArea>
+			),
 		},
 	];
 
@@ -59,9 +66,7 @@ export const Preferences = () => {
 					</Button>
 				))}
 			</ScrollArea>
-			<ScrollArea className="min-h-full col-span-4 py-6 px-10">
-				{TABS.find((tab) => tab.value === activeTab)?.component()}
-			</ScrollArea>
+			{TABS.find((tab) => tab.value === activeTab)?.component()}
 		</div>
 	);
 };

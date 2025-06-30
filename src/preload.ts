@@ -58,6 +58,21 @@ contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
       return ipcRenderer.invoke("ffmpeg-transcode", input);
     },
   },
+  llmProviders: {
+    create: (params: LlmProviderType) => {
+      return ipcRenderer.invoke("llm-providers-create", params)
+    },
+    update: (id: string, params: Partial<Omit<LlmProviderType, "id">>) => {
+      return ipcRenderer.invoke("llm-providers-update", id, params)
+    },
+    findAll: () => {
+      return ipcRenderer.invoke("llm-providers-find-all");
+    },
+    getOllamaModels: () => {
+      return ipcRenderer.invoke("llm-providers-ollama-models");
+    }
+
+  },
   model: {
     getModels: () => ipcRenderer.invoke("model-list"),
     download: (model: ModelType) => ipcRenderer.invoke("model-download-start", model),

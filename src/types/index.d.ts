@@ -34,12 +34,10 @@ type DownloadStateType = {
   speed?: string;
 };
 
-
 type TranscribeConfigType = {
   model: string;
   language: LanguageType;
 }
-
 
 type MediaType = "Audio" | "Video" | "Unknown"
 
@@ -49,3 +47,10 @@ type TransactionStateType = {
   action: "create" | "update" | "destroy";
   record?: VideoType;
 };
+
+
+type TranslateConfigType = {
+  providerId: string;
+  targetLanguage: string;
+  modelId: string
+}

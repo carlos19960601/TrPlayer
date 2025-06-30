@@ -14,8 +14,6 @@ export const TranscriptionCard = (props: {
 	const { transcription } = props;
 	const createdAt = dayjs(transcription.createdAt);
 
-	console.log(transcription);
-
 	const handleTranscriptionDelete = (e: MouseEvent) => {
 		e.stopPropagation();
 		TrPlayerApp.transcriptions
@@ -36,7 +34,6 @@ export const TranscriptionCard = (props: {
 		>
 			<CardContent className="p-0">
 				<div className="relative">
-					{/* <img src="https://picsum.photos/300/200" /> */}
 					<img src={transcription.coverUrl} />
 					<div className="absolute top-1 right-1 group-hover:block hidden">
 						<Button

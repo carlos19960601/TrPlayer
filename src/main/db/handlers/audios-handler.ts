@@ -19,8 +19,6 @@ class AudiosHandler {
 
     try {
       const audio = await Audio.buildFromLocalFile(file)
-
-
       return audio.toJSON();
     } catch (err) {
 
