@@ -9,6 +9,7 @@ import { LayoutGridIcon, LayoutListIcon } from "lucide-react";
 import { useContext, useEffect, useReducer, useState } from "react";
 import { toast } from "sonner";
 import { TranscriptionCard } from "./transcription-card";
+import { TranscriptionItem } from "./transcription-item";
 
 export const TranscriptionsComponent = () => {
 	const { addDblistener, removeDbListener } = useContext(DbProviderContext);
@@ -19,7 +20,7 @@ export const TranscriptionsComponent = () => {
 
 	const [transcriptions, dispatchTranscriptions] = useReducer(
 		transcriptionsReducer,
-		[],
+		[]
 	);
 
 	const fetchTranscriptions = async () => {
@@ -107,7 +108,16 @@ export const TranscriptionsComponent = () => {
 						))}
 					</div>
 				)}
-				{layout === "list" && <div></div>}
+				{layout === "list" && (
+					<div>
+						{transcriptions.map((transcription) => (
+							<TranscriptionItem
+								transcription={transcription}
+								key={transcription.id}
+							/>
+						))}
+					</div>
+				)}
 			</div>
 		</div>
 	);

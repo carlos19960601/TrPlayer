@@ -84,6 +84,7 @@
 			"updated": "LLM Provider更新成功"
 		},
 		"transcription": {
+			"filename": "文件名",
 			"notFound": "未找到转写结果"
 		},
 		"video": {

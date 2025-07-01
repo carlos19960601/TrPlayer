@@ -83,6 +83,7 @@
 			"updated": "LLM Provider updated"
 		},
 		"transcription": {
+			"filename": "Filename",
 			"notFound": "Transcription not found"
 		},
 		"video": {

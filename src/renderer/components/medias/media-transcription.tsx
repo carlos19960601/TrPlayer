@@ -30,7 +30,7 @@ import { TranslateConfigForm } from "./translate-config-form";
 
 export const MediaTranscription = () => {
 	const { transcription, currentSegmentIndex } = useContext(
-		MediaShadowProviderContext,
+		MediaShadowProviderContext
 	);
 	const { TrPlayerApp } = useContext(AppSettingsProviderContext);
 	const { translate } = useAiCommand();
@@ -38,6 +38,9 @@ export const MediaTranscription = () => {
 	const [autoScroll, setAutoScroll] = useState(true);
 	const [open, setOpen] = useState(false);
 	const [translating, setTranslating] = useState(false);
+	const [translationResults, setTranslationResults] = useState<
+		Record<number, string>
+	>({});
 
 	const transcriptionContainerRef = useRef<HTMLDivElement>(null);
 	const transcriptionSegmentRefs = useRef<HTMLDivElement[]>([]);
@@ -53,17 +56,43 @@ export const MediaTranscription = () => {
 		setAbortController(abortController);
 
 		try {
-			transcription.recognitionResult.timeline.forEach(async (entry) => {
-				const translation = await translate(entry.text, data.targetLanguage, {
-					providerId: data.providerId,
-					modelId: data.modelId,
-					abortSignal: abortController.signal,
-				});
-				entry.translation = translation;
+			const translationPromises = transcription.recognitionResult.timeline.map(
+				async (entry, index) => {
+					try {
+						const translation = await translate(
+							entry.text,
+							data.targetLanguage,
+							{
+								providerId: data.providerId,
+								modelId: data.modelId,
+								abortSignal: abortController.signal,
+							}
+						);
 
-				// TrPlayerApp.transcriptions.update(transcription.id, {
-				// 	recognitionResult: transcription.recognitionResult,
-				// });
+						setTranslationResults((prev) => ({
+							...prev,
+							[index]: translation,
+						}));
+						return { index, entry, translation };
+					} catch (err) {
+						if (err.name !== "AbortError") {
+							console.error(`翻译第${index}项时出错:`, err);
+						}
+						return { index, entry, translation: null };
+					}
+				}
+			);
+
+			const results = await Promise.all(translationPromises);
+			// 批量更新所有翻译结果
+			results.forEach(({ entry, translation }) => {
+				if (transcription) {
+					entry.translation = translation;
+				}
+			});
+
+			TrPlayerApp.transcriptions.update(transcription.id, {
+				recognitionResult: transcription.recognitionResult,
 			});
 		} catch (err) {
 			console.error(err);
@@ -171,26 +200,31 @@ export const MediaTranscription = () => {
 						ref={transcriptionContainerRef}
 						className="max-h-[calc(100vh-180px)]"
 					>
-						{transcription.recognitionResult?.timeline.map((entry, index) => (
-							<div
-								key={`segment-${index}`}
-								className={cn(
-									"flex gap-3 my-2",
-									currentSegmentIndex === index && "font-bold",
-								)}
-								ref={(ref) => {
-									transcriptionSegmentRefs.current[index] = ref;
-								}}
-							>
-								<span className=" text-muted-foreground">
-									{formatDuration(entry.startTime)}
-								</span>
-								<div className="flex flex-col gap-2">
-									<p className="">{entry.text}</p>
-									{entry.translation && <p className="">{entry.translation}</p>}
+						{transcription.recognitionResult?.timeline.map((entry, index) => {
+							// 优先使用本地状态的翻译结果，如果没有则使用entry.translation
+							const currentTranslation =
+								translationResults[index] || entry.translation;
+							return (
+								<div
+									key={`segment-${index}`}
+									className={cn(
+										"flex gap-3 my-2",
+										currentSegmentIndex === index && "font-bold"
+									)}
+									ref={(ref) => {
+										transcriptionSegmentRefs.current[index] = ref;
+									}}
+								>
+									<span className="text-muted-foreground">
+										{formatDuration(entry.startTime)}
+									</span>
+									<div className="flex flex-col gap-2">
+										<p className="">{entry.text}</p>
+										<p className="">{currentTranslation}</p>
+									</div>
 								</div>
-							</div>
-						))}
+							);
+						})}
 					</div>
 				</ScrollArea>
 			</CardContent>
