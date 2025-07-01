@@ -25,6 +25,7 @@ import {
 	StopCircleIcon,
 	UnfoldVerticalIcon,
 } from "lucide-react";
+import pLimit from "p-limit";
 import { useContext, useEffect, useRef, useState } from "react";
 import { TranslateConfigForm } from "./translate-config-form";
 
@@ -55,31 +56,35 @@ export const MediaTranscription = () => {
 		const abortController = new AbortController();
 		setAbortController(abortController);
 
+		const limit = pLimit(5);
+
 		try {
 			const translationPromises = transcription.recognitionResult.timeline.map(
-				async (entry, index) => {
-					try {
-						const translation = await translate(
-							entry.text,
-							data.targetLanguage,
-							{
-								providerId: data.providerId,
-								modelId: data.modelId,
-								abortSignal: abortController.signal,
-							}
-						);
+				(entry, index) => {
+					return limit(async () => {
+						try {
+							const translation = await translate(
+								entry.text,
+								data.targetLanguage,
+								{
+									providerId: data.providerId,
+									modelId: data.modelId,
+									abortSignal: abortController.signal,
+								}
+							);
 
-						setTranslationResults((prev) => ({
-							...prev,
-							[index]: translation,
-						}));
-						return { index, entry, translation };
-					} catch (err) {
-						if (err.name !== "AbortError") {
-							console.error(`翻译第${index}项时出错:`, err);
+							setTranslationResults((prev) => ({
+								...prev,
+								[index]: translation,
+							}));
+							return { index, entry, translation };
+						} catch (err) {
+							if (err.name !== "AbortError") {
+								console.error(`翻译第${index}项时出错:`, err);
+							}
+							return { index, entry, translation: null };
 						}
-						return { index, entry, translation: null };
-					}
+					});
 				}
 			);
 
