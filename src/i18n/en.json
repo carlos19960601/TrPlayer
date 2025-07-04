@@ -67,7 +67,8 @@
 		"smallDescription": "Balanced, better quality(488MB)",
 		"tinyEnDescription": "Fast, low quality(77.7MB)",
 		"language": "Language",
-		"transcribe": "Transcribe Model"
+		"transcribe": "Transcribe Model",
+		"uninstalled": "Uninstalled"
 	},
 	"models": {
 		"audio": {

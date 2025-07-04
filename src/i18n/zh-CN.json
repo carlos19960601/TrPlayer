@@ -68,7 +68,8 @@
 		"tinyEnDescription": "输出文字速度快，转写文字质量一般。(77.7MB)",
 		"baseEnDescription": "输出文字速度快，转写文字质量一般。(148MB)",
 		"language": "原文件语言",
-		"transcribe": "转写模型"
+		"transcribe": "转写模型",
+		"uninstalled": "未下载"
 	},
 	"models": {
 		"audio": {

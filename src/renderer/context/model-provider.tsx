@@ -35,7 +35,7 @@ export const ModelProvider = ({ children }: PropsWithChildren) => {
 	}, []);
 
 	const fetchModels = () => {
-		return TrPlayerApp.model.getModels().then((models) => setModels(models));
+		TrPlayerApp.model.getModels().then((models) => setModels(models));
 	};
 
 	const downloadModel = async (model: ModelType) => {

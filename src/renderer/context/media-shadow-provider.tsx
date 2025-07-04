@@ -69,7 +69,7 @@ export const MediaShadowProvider = ({
 		if (!artPlayerRef?.current) return;
 
 		const artPlayer = new Artplayer({
-			url: `local://${media.src}`,
+			url: encodeURI(`local://${media.src}`),
 			container: artPlayerRef.current,
 			loop: false,
 			autoSize: true,
@@ -91,7 +91,7 @@ export const MediaShadowProvider = ({
 				transcriptionRef.current.recognitionResult.timeline.findIndex(
 					(t) =>
 						artPlayer.currentTime * 1000 >= t.startTime &&
-						artPlayer.currentTime * 1000 < t.endTime,
+						artPlayer.currentTime * 1000 < t.endTime
 				);
 			setCurrentSegmentIndex(index);
 		}

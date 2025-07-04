@@ -83,8 +83,8 @@ export const TranscriptionCreateForm = (props: {
 												<Button variant="outline" className="w-32">
 													{field.value
 														? languages.find(
-																(language) => language.value === field.value,
-															)?.label
+																(language) => language.value === field.value
+														  )?.label
 														: "Select language"}
 													<ChevronsUpDownIcon className="opacity-50" />
 												</Button>
@@ -115,7 +115,7 @@ export const TranscriptionCreateForm = (props: {
 																		"ml-auto",
 																		language.value === field.value
 																			? "opacity-100"
-																			: "opacity-0",
+																			: "opacity-0"
 																	)}
 																/>
 															</CommandItem>
@@ -139,15 +139,27 @@ export const TranscriptionCreateForm = (props: {
 									<FormLabel>{t("model.transcribe")}</FormLabel>
 									<Select value={field.value} onValueChange={field.onChange}>
 										<FormControl>
-											<SelectTrigger className="w-32">
+											<SelectTrigger className="w-32 **:data-desc:hidden">
 												<SelectValue placeholder="Select a fruit" />
 											</SelectTrigger>
 										</FormControl>
 
 										<SelectContent>
 											{models.map((model) => (
-												<SelectItem value={model.value} key={model.value}>
-													{model.name}
+												<SelectItem
+													value={model.value}
+													key={model.value}
+													disabled={model.state !== "installed"}
+												>
+													<div className="flex flex-col">
+														{model.name}
+														<span
+															className="text-muted-foreground mt-1 block text-xs"
+															data-desc
+														>
+															{t("model.uninstalled")}
+														</span>
+													</div>
 												</SelectItem>
 											))}
 										</SelectContent>
@@ -165,7 +177,8 @@ export const TranscriptionCreateForm = (props: {
 
 					<div className="flex justify-end space-x-4">
 						{onCancel && (
-							<Button variant="outline" onClick={onCancel}>
+							// cancel 这里要指定type，不然默认是submit，会触发form的onSubmit
+							<Button type="button" variant="outline" onClick={onCancel}>
 								{t("cancel")}
 							</Button>
 						)}
