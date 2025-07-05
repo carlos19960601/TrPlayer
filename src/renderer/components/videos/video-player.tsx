@@ -8,9 +8,7 @@ export const VideoPlayer = (props: {
 	md5?: string;
 }) => {
 	const { id, md5 } = props;
-
-	const { media, setMedia } = useContext(MediaShadowProviderContext);
-
+	const { setMedia } = useContext(MediaShadowProviderContext);
 	const { video } = useVideo({ id, md5 });
 
 	useEffect(() => {

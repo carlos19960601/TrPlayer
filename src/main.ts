@@ -41,8 +41,6 @@ app.on("ready", () => {
 		const fileSize = stats.size;
 		const mimeType = getMimeType(filepath);
 
-		logger.info(range, fileSize, mimeType);
-
 		// 处理Range请求
 		if (range) {
 			const rangeMatch = range.match(/bytes=(\d+)-(\d*)/);
@@ -106,5 +104,7 @@ app.on("activate", () => {
 app.on("before-quit", () => {
 	try {
 		fs.emptyDirSync(settings.cachePath());
-	} catch (err) {}
+	} catch (error) {
+		// todo
+	}
 });

@@ -1,27 +1,83 @@
-import { MediaShadowProviderContext } from "@/renderer/context";
+import {
+	MediaShadowProviderContext,
+	ThemeProviderContext,
+} from "@/renderer/context";
 import { formatDuration } from "@/renderer/lib/utils";
+import { millisecondsToTimestamp } from "@/utils";
+import {
+	MediaTimeUpdateEvent,
+	MediaTimeUpdateEventDetail,
+	TextTrack,
+	MediaPlayer as VidstackMediaPlayer,
+	MediaProvider as VidstackMediaProvider,
+} from "@vidstack/react";
+import {
+	DefaultAudioLayout,
+	DefaultVideoLayout,
+	defaultLayoutIcons,
+} from "@vidstack/react/player/layouts/default";
 import { Clock5Icon } from "lucide-react";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
+import { toast } from "sonner";
 
 export const MediaProvider = () => {
-	const artRef = useRef<HTMLDivElement>(null);
-	const { media, setArtPlayerRef } = useContext(MediaShadowProviderContext);
+	const { media, transcription, setCurrentSegmentIndex, playerRef } =
+		useContext(MediaShadowProviderContext);
+	const { theme } = useContext(ThemeProviderContext);
+	if (!media?.src) return null;
+
+	const handleTimeUpdate = (
+		detail: MediaTimeUpdateEventDetail,
+		nativeEvent: MediaTimeUpdateEvent,
+	) => {
+		if (transcription?.recognitionResult) {
+			const index = transcription.recognitionResult.timeline.findIndex(
+				(t) =>
+					detail.currentTime * 1000 >= t.startTime &&
+					detail.currentTime * 1000 < t.endTime,
+			);
+			setCurrentSegmentIndex(index);
+		}
+	};
 
 	useEffect(() => {
-		if (!media?.src) return;
-		if (!artRef?.current) return;
+		if (!transcription?.recognitionResult?.timeline) return;
+		if (!playerRef?.current) return;
 
-		setArtPlayerRef(artRef);
-	}, [media?.src, artRef]);
+		const srt = transcription.recognitionResult.timeline
+			.map(
+				(t: TimelineEntry, index: number) =>
+					`${index + 1}\n${millisecondsToTimestamp(t.startTime)} --> ${millisecondsToTimestamp(t.endTime)}\n${t.text}${t.translation}`,
+			)
+			.join("\n\n");
 
-	if (!media?.src) return null;
+		playerRef.current.textTracks.clear();
+		playerRef.current.textTracks.add(
+			new TextTrack({
+				label: "Transcription",
+				content: srt,
+				kind: "subtitles",
+				type: "srt",
+				language: "double",
+			}),
+		);
+	}, [transcription]);
 
 	return (
 		<div className="flex flex-col px-2 gap-4">
-			<div
-				ref={artRef}
-				className="aspect-video w-full overflow-hidden rounded-md *:z-0"
-			/>
+			<VidstackMediaPlayer
+				ref={playerRef}
+				src={`local://${media.src}`}
+				onError={(err) => {
+					toast.error(err.message);
+				}}
+				onTimeUpdate={handleTimeUpdate}
+			>
+				<VidstackMediaProvider />
+				<DefaultAudioLayout icons={defaultLayoutIcons} colorScheme={theme} />
+				<DefaultVideoLayout icons={defaultLayoutIcons} colorScheme={theme} />
+			</VidstackMediaPlayer>
+
 			<div className="flex flex-row px-2 items-center justify-between">
 				<h2 className="flex-2/3 text-lg font-bold break-words min-w-0">
 					{media.name}

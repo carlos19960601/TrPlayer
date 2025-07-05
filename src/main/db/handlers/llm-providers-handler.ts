@@ -42,27 +42,33 @@ class LLMProvidersHandler {
       return [];
     }
 
-    const response = await fetch(`${llmProvider.baseUrl}/tags`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    try {
+      const response = await fetch(`${llmProvider.baseUrl}/tags`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
 
-    if (!response.ok) {
-      console.warn(`Ollama not available at ${llmProvider.baseUrl} or no models found`)
-      return []
+      if (!response.ok) {
+        logger.warn(`Ollama not available at ${llmProvider.baseUrl} or no models found`)
+        return []
+      }
+
+      const data: OllamaListResponse = await response.json()
+
+      return data.models.map((model) => {
+        return {
+          id: model.name,
+          name: model.name,
+          providerId: llmProvider.providerId,
+        }
+      })
+    } catch (error) {
+      logger.error(`Ollama not available at ${llmProvider.baseUrl} or no models found`, error)
     }
 
-    const data: OllamaListResponse = await response.json()
-
-    return data.models.map((model) => {
-      return {
-        id: model.name,
-        name: model.name,
-        providerId: llmProvider.providerId,
-      }
-    })
+    return []
   }
 
   register() {
