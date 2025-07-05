@@ -1,6 +1,6 @@
+import { VideoPlayer } from "@renderer/components/videos";
+import { MediaShadowProvider } from "@renderer/context";
 import { useNavigate, useParams } from "react-router-dom";
-import { VideoPlayer } from "../components/videos";
-import { MediaShadowProvider } from "../context/media-shadow-provider";
 
 const VideoPage = () => {
 	const { id } = useParams();

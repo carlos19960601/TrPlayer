@@ -22,6 +22,7 @@ type TimelineEntry = {
 
 type RecognitionResult = {
   language: string;
+  translationLanguage?: string;
   timeline: Timeline;
 }
 
