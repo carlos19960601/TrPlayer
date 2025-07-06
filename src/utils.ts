@@ -90,7 +90,8 @@ export function timelineToAss(recognitionResult: RecognitionResult): string {
 			return `Dialogue: 1,${millisecondsToAssTimestamp(t.startTime)},${millisecondsToAssTimestamp(t.endTime)},Default,,0,0,0,,${t.translation}`
 		}).join("\n")
 
-		result += ("\n" + translationContent)
+		result += "\n"
+		result += translationContent
 	}
 
 

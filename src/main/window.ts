@@ -9,6 +9,7 @@ import {
 	BrowserWindow,
 	IpcMainInvokeEvent,
 	OpenDialogSyncOptions,
+	SaveDialogOptions,
 	dialog,
 	ipcMain,
 	shell,
@@ -73,6 +74,14 @@ class WindowWrapper {
 				);
 			}
 		);
+		ipcMain.handle("dialog-show-save-dialog",
+			(event: IpcMainInvokeEvent, options: SaveDialogOptions) => {
+				return dialog.showSaveDialogSync(
+					BrowserWindow.fromWebContents(event.sender),
+					options
+				);
+			});
+
 
 		// Create the browser window.
 		const mainWindow = new BrowserWindow({

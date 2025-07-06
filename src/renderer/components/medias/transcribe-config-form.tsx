@@ -146,7 +146,7 @@ export const TranscribeConfigForm = (props: {
 							</FormItem>
 						)}
 					/>
-					<DialogFooter className="flex gap-4justify-end">
+					<DialogFooter className="flex gap-4 justify-end">
 						<DialogClose asChild>
 							<Button type="button" variant="secondary">
 								{t("cancel")}

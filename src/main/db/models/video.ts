@@ -159,6 +159,12 @@ export class Video extends Model<Video> {
 		});
 	}
 
+
+	async export(savePath: string) {
+		
+		return
+	}
+
 	static notify(video: Video, action: "create" | "update" | "destroy") {
 		if (!mainWindow.win) return;
 

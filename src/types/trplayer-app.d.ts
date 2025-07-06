@@ -1,4 +1,3 @@
-
 type TrPlayerType = {
   app: {
     getPlatformInfo: () => Promise<PlatformInfoType>;
@@ -10,7 +9,8 @@ type TrPlayerType = {
     setModelPath: (path: string) => Promise<void>;
   },
   audios: {
-    create: (uri: string) => Promise<AudioType>
+    create: (uri: string) => Promise<AudioType>;
+    export: (id: string, params: any) => Promise<void>;
   },
   db: {
     connect: () => Promise<DbState>,
@@ -21,8 +21,9 @@ type TrPlayerType = {
   },
   dialog: {
     showOpenDialog: (
-      options: Electron.OpenDialogOptions
-    ) => Promise<string[] | undefined>;
+      options: OpenDialogOptions
+    ) => Promise<string[] | undefined>,
+    showSaveDialog: (options: SaveDialogOptions) => Promise<string | undefined>;
   },
   download: {
     onState: (callback: (event: IpcRendererEvent, state: DownloadStateType) => void) => void;
@@ -40,8 +41,8 @@ type TrPlayerType = {
   },
   llmProviders: {
     create: (params: LlmProviderType) => Promise<LlmProviderType>;
-    update: (id: string, paras: Partial<Omit<LlmProviderType, "id">>) => Promise<void>;
-    findAll: () => Promise<LlmProviderType[]>
+    update: (id: string, params: Partial<Omit<LlmProviderType, "id">>) => Promise<void>;
+    findAll: () => Promise<LlmProviderType[]>;
     getOllamaModels: () => Promise<LlmModelType[]>;
   },
   model: {
@@ -57,6 +58,7 @@ type TrPlayerType = {
     findAll: (params: any) => Promise<TranscriptionType[]>;
     update: (id: string, params: Partial<Omit<TranscriptionType, "id">>) => Promise<void>;
     destroy: (id: string) => Promise<undefined>;
+    export: (id: string, savePath: string) => Promise<void>;
   },
   userSettings: {
     get: (key: UserSettingKeyEnum) => Promise<any>;
@@ -65,6 +67,7 @@ type TrPlayerType = {
   videos: {
     findOne: (params: any) => Promise<VideoType | null>;
     create: (uri: string) => Promise<VideoType>;
+    export: (id: string, params: any) => Promise<void>;
   },
   whisper: {
     recognize: (params: {

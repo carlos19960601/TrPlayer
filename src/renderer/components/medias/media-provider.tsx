@@ -48,13 +48,9 @@ export const MediaProvider = () => {
 			workerUrl: "/jassub/jassub-worker.js",
 			legacyWorkerUrl: "/jassub/jassub-worker-legacy.js",
 		});
-
 		playerRef.current.textRenderers.add(renderer);
 
 		const content = timelineToAss(transcription.recognitionResult);
-
-		console.log("===", content, transcription.recognitionResult);
-
 		playerRef.current.textTracks.clear();
 		playerRef.current.textTracks.add(
 			new TextTrack({

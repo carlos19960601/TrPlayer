@@ -95,6 +95,18 @@ class FfmpegWrapper {
     })
   }
 
+  embedHardSubtitles(input: string, subtile: string, output: string) {
+    const ffmpeg = Ffmpeg()
+    return new Promise((resolve, reject) => {
+      ffmpeg.input(input).outputOptions([
+        "-vf",
+        `subtitles=${subtile}`,
+        "-c:a copy",
+        "-y",
+      ]).save(output)
+    })
+  }
+
   registerIpcHandlers() {
     ipcMain.handle(
       "ffmpeg-transcode",

@@ -20,7 +20,7 @@ export const TranscriptionsComponent = () => {
 
 	const [transcriptions, dispatchTranscriptions] = useReducer(
 		transcriptionsReducer,
-		[]
+		[],
 	);
 
 	const fetchTranscriptions = async () => {
@@ -33,10 +33,10 @@ export const TranscriptionsComponent = () => {
 				where: {},
 				targetType,
 			})
-			.then((transcriptions) => {
+			.then((transcriptions: TranscriptionType[]) => {
 				dispatchTranscriptions({ type: "set", records: transcriptions });
 			})
-			.catch((err) => {
+			.catch((err: Error) => {
 				toast.error(err.message);
 			})
 			.finally(() => {
@@ -109,7 +109,7 @@ export const TranscriptionsComponent = () => {
 					</div>
 				)}
 				{layout === "list" && (
-					<div>
+					<div className="flex flex-col gap-2">
 						{transcriptions.map((transcription) => (
 							<TranscriptionItem
 								transcription={transcription}

@@ -1,7 +1,7 @@
 // See the Electron documentation for details on how to use preload scripts:
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
-import { IpcRendererEvent, contextBridge, ipcRenderer } from "electron";
+import { IpcRendererEvent, OpenDialogOptions, SaveDialogOptions, contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
 	app: {
@@ -38,8 +38,10 @@ contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
 		},
 	},
 	dialog: {
-		showOpenDialog: (options: Electron.OpenDialogOptions) =>
+		showOpenDialog: (options: OpenDialogOptions) =>
 			ipcRenderer.invoke("dialog-show-open-dialog", options),
+		showSaveDialog: (options: SaveDialogOptions) =>
+			ipcRenderer.invoke("dialog-show-save-dialog", options),
 	},
 	download: {
 		onState: (
@@ -92,6 +94,9 @@ contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
 		destroy: (id: string) => {
 			return ipcRenderer.invoke("transcriptions-destroy", id);
 		},
+		export: (id: string, savePath: string) => {
+			return ipcRenderer.invoke("transcriptions-export", id, savePath);
+		}
 	},
 	userSettings: {
 		get: (key: string) => {
@@ -108,6 +113,9 @@ contextBridge.exposeInMainWorld("__TRPLAYER_APP__", {
 		create: (uri: string) => {
 			return ipcRenderer.invoke("videos-create", uri);
 		},
+		export: (id: string, params: any) => {
+			return ipcRenderer.invoke("videos-export", id, params);
+		}
 	},
 	whisper: {
 		recognize: (params: { url: string; language: string; model: string }) => {

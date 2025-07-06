@@ -1,7 +1,7 @@
 import log from "@/main/logger";
 import { IpcMainInvokeEvent, ipcMain } from "electron";
 import { t } from "i18next";
-import { LlmProvider } from "../models/llm-provider";
+import { LlmProvider } from "@main/db/models";
 
 const logger = log.scope("db/handlers/llm-providers-handler");
 

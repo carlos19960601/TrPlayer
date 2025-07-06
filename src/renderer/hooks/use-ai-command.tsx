@@ -53,40 +53,7 @@ export const useAiCommand = () => {
 			return provider;
 		});
 
-		// const ollamaProvider = mergedProviders.find(
-		// 	(provider) => provider.providerId === "ollama",
-		// );
-		// if (ollamaProvider) {
-		// 	const ollamaModels = await TrPlayerApp.llmProviders.getOllamaModels();
-		// 	ollamaProvider.models = ollamaModels;
-		// 	if (ollamaModels.length === 0) {
-		// 		ollamaProvider.available = false;
-		// 	}
-		// }
 		dispatchLlmProviders({ type: "set", records: mergedProviders });
-	};
-
-	const fetchOllamaModels = async () => {
-		const providers = await TrPlayerApp.llmProviders.findAll();
-		const existingProvider = providers.find(
-			(provider) => provider.providerId === "ollama",
-		);
-		const ollamaModels = await TrPlayerApp.llmProviders.getOllamaModels();
-		const defaultOllamaProvider = DefaultLlmProviders.find(
-			(provider) => provider.providerId === "ollama",
-		);
-		const available = ollamaModels.length > 0;
-
-		const mergedProvider = {
-			...defaultOllamaProvider,
-			id: existingProvider.id,
-			baseUrl: existingProvider.baseUrl,
-			apiKey: existingProvider.apiKey,
-			models: ollamaModels,
-			available,
-		};
-
-		dispatchLlmProviders({ type: "update", record: mergedProvider });
 	};
 
 	const getLanguageModel = (

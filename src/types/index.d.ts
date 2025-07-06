@@ -54,3 +54,14 @@ type TranslateConfigType = {
 	targetLanguage: string;
 	modelId: string;
 };
+
+type MediaExportConfigType = {
+	format: string;
+}
+
+
+type ExportLanguageType = "original" | "translation" | "double"
+
+type AssExportConfigType = {
+	language: ExportLanguageType;
+}

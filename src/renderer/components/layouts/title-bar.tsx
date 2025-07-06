@@ -63,6 +63,7 @@ const TitleBar = (props: TitleBarProps) => {
 						<Preferences />
 					</DialogContent>
 				</Dialog>
+				
 			</div>
 		</div>
 	);

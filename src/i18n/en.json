@@ -1,6 +1,7 @@
 {
 	"download": "Download",
 	"cancel": "Cancel",
+	"delete": "Delete",
 	"transcribe": "Transcribe",
 	"transcribing": "Transcribing",
 	"unsupportedMediaType": "Unsupported media type",
@@ -15,6 +16,18 @@
 	"apply": "Apply",
 	"stop": "Stop",
 	"translate": "Translation",
+	"export": {
+		"self": "Export",
+		"ass": "Export ASS",
+		"video": "Export Video",
+		"language": "Language",
+		"languageHint": "Select the language to export",
+		"languages": {
+			"original": "Original",
+			"translated": "Translated",
+			"multi": "Multi"
+		}
+	},
 	"form": {
 		"field": {
 			"url": "{{field}} must be a valid URL",
@@ -55,6 +68,10 @@
 		"zh": "Simplified Chinese",
 		"zh-CN": "简体中文"
 	},
+	"media": {
+		"format": "Format",
+		"formatHint": "Select the file format"
+	},
 	"model": {
 		"modelFolder": "Model Folder",
 		"openFolder": "Open Folder",
@@ -85,7 +102,8 @@
 		},
 		"transcription": {
 			"filename": "Filename",
-			"notFound": "Transcription not found"
+			"notFound": "Transcription not found",
+			"notReady": "Transcription not ready"
 		},
 		"video": {
 			"fileNotFound": "File not found {{file}}",
@@ -101,6 +119,8 @@
 		"localFile": "Local File"
 	},
 	"transcription": {
-		"autoScroll": "Auto Scroll"
+		"self": "Transcription",
+		"autoScroll": "Auto Scroll",
+		"export": "Export"
 	}
 }

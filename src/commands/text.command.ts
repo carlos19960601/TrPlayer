@@ -15,5 +15,5 @@ export const textCommand = async (params: {
   })
 
   const result = await generateText({ model: wrapModel, system, prompt, abortSignal })
-  return result.text
+  return result.text.trim()
 }

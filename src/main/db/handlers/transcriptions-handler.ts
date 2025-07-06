@@ -1,10 +1,13 @@
 import log from "@/main/logger";
+import { timelineToAss } from "@/utils";
 import { Audio, Video } from "@main/db/models";
 import { Transcription } from "@main/db/models/transcription";
 import { IpcMainInvokeEvent, ipcMain } from "electron";
+import fs from "fs-extra";
 import { t } from "i18next";
 import _ from "lodash";
 import { Attributes, FindOptions } from "sequelize";
+
 
 const logger = log.scope("db/handlers/transcriptions-handler");
 
@@ -31,7 +34,17 @@ class TranscriptionsHandler {
         targetId,
         targetType,
         targetMd5: target.md5,
-      }
+      },
+      include: [
+        {
+          association: "video",
+          model: Video,
+        }
+      ],
+    })
+
+    logger.info("find or create transcription", {
+      transcription: transcription.toJSON(),
     })
 
     return transcription.toJSON();
@@ -87,6 +100,22 @@ class TranscriptionsHandler {
     return await transcription.destroy();
   }
 
+  private async export(event: IpcMainInvokeEvent, id: string, filePath: string) {
+    const transcription = await Transcription.findByPk(id);
+    if (!transcription) {
+      throw new Error("models.transcription.notFound");
+    }
+
+    if (!transcription.recognitionResult) {
+      throw new Error("models.transcription.notReady");
+    }
+
+    const assContent = timelineToAss(transcription.recognitionResult)
+    fs.writeFileSync(filePath, assContent)
+
+    return
+  }
+
 
 
   register() {
@@ -94,12 +123,15 @@ class TranscriptionsHandler {
     ipcMain.handle("transcriptions-find-all", this.findAll)
     ipcMain.handle("transcriptions-update", this.update);
     ipcMain.handle("transcriptions-destroy", this.destroy);
+    ipcMain.handle("transcriptions-export", this.export);
   }
 
   unregister() {
     ipcMain.removeHandler("transcriptions-find-or-create");
     ipcMain.removeHandler("transcriptions-find-all")
     ipcMain.removeHandler("transcriptions-update");
+    ipcMain.removeHandler("transcriptions-destroy");
+    ipcMain.removeHandler("transcriptions-export");
   }
 }
 

@@ -38,13 +38,28 @@ class VideosHandler {
     }
   }
 
+  private async export(_event: IpcMainInvokeEvent, id: string, savePath: string) {
+    const video = await Video.findByPk(id);
+    if (!video) {
+      throw new Error("Video not found");
+    }
+
+    
+
+
+    return
+  }
+
   register() {
     ipcMain.handle("videos-find-one", this.findOne);
     ipcMain.handle("videos-create", this.create);
+    ipcMain.handle("videos-export", this.export);
   }
 
   unregister() {
     ipcMain.removeHandler("videos-create");
+    ipcMain.removeHandler("videos-find-one");
+    ipcMain.removeHandler("videos-export");
   }
 }
 
