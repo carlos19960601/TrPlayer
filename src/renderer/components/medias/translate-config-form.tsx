@@ -31,9 +31,9 @@ export const TranslateConfigForm = (props: {
 	const form = useForm<z.infer<typeof translateConfigFormSchema>>({
 		resolver: zodResolver(translateConfigFormSchema),
 		values: {
-			providerId: "openrouter",
+			providerId: "siliconflow",
 			targetLanguage: "zh-CN",
-			modelId: "deepseek/deepseek-chat:free",
+			modelId: "THUDM/GLM-4-9B-0414",
 		},
 	});
 

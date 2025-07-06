@@ -3,8 +3,9 @@ import {
 	ThemeProviderContext,
 } from "@/renderer/context";
 import { formatDuration } from "@/renderer/lib/utils";
-import { millisecondsToTimestamp } from "@/utils";
+import { timelineToAss } from "@/utils";
 import {
+	LibASSTextRenderer,
 	MediaTimeUpdateEvent,
 	MediaTimeUpdateEventDetail,
 	TextTrack,
@@ -24,7 +25,6 @@ export const MediaProvider = () => {
 	const { media, transcription, setCurrentSegmentIndex, playerRef } =
 		useContext(MediaShadowProviderContext);
 	const { theme } = useContext(ThemeProviderContext);
-	if (!media?.src) return null;
 
 	const handleTimeUpdate = (
 		detail: MediaTimeUpdateEventDetail,
@@ -44,24 +44,30 @@ export const MediaProvider = () => {
 		if (!transcription?.recognitionResult?.timeline) return;
 		if (!playerRef?.current) return;
 
-		const srt = transcription.recognitionResult.timeline
-			.map(
-				(t: TimelineEntry, index: number) =>
-					`${index + 1}\n${millisecondsToTimestamp(t.startTime)} --> ${millisecondsToTimestamp(t.endTime)}\n${t.text}${t.translation}`,
-			)
-			.join("\n\n");
+		const renderer = new LibASSTextRenderer(() => import("jassub") as any, {
+			workerUrl: "/jassub/jassub-worker.js",
+			legacyWorkerUrl: "/jassub/jassub-worker-legacy.js",
+		});
+
+		playerRef.current.textRenderers.add(renderer);
+
+		const content = timelineToAss(transcription.recognitionResult);
+
+		console.log("===", content, transcription.recognitionResult);
 
 		playerRef.current.textTracks.clear();
 		playerRef.current.textTracks.add(
 			new TextTrack({
 				label: "Transcription",
-				content: srt,
+				content: content,
 				kind: "subtitles",
-				type: "srt",
+				type: "ass",
 				language: "double",
 			}),
 		);
 	}, [transcription]);
+
+	if (!media?.src) return null;
 
 	return (
 		<div className="flex flex-col px-2 gap-4">

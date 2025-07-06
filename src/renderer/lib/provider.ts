@@ -7,6 +7,7 @@ export const DefaultLlmProviders: LlmProviderType[] = [
     baseUrl: "",
     baseUrlPlaceholder: "http://localhost:11434/api",
     icon: Ollama,
+    available: false,
     models: [],
   },
   {
@@ -15,6 +16,7 @@ export const DefaultLlmProviders: LlmProviderType[] = [
     baseUrl: "",
     baseUrlPlaceholder: "https://openrouter.ai/api/v1",
     icon: OpenRouter,
+    available: true,
     models: [
       {
         id: "deepseek/deepseek-r1:free",
@@ -44,6 +46,7 @@ export const DefaultLlmProviders: LlmProviderType[] = [
     baseUrl: "",
     baseUrlPlaceholder: "https://api.siliconflow.cn/v1",
     icon: SiliconCloud,
+    available: true,
     models: [
       {
         id: "THUDM/GLM-4-9B-0414",
@@ -73,6 +76,7 @@ export const DefaultLlmProviders: LlmProviderType[] = [
     baseUrl: "",
     baseUrlPlaceholder: "https://api.openai.com/v1",
     icon: OpenAI,
+    available: true,
     models: [
       {
         id: "gpt-3.5-turbo",

@@ -65,7 +65,7 @@ class TranscriptionsHandler {
   }
 
   private async update(event: IpcMainInvokeEvent, id: string, params: Attributes<Transcription>) {
-    const { state, recognitionResult } = params
+    const { state, language, recognitionResult } = params
 
     const transcription = await Transcription.findByPk(id)
     if (!transcription) {
@@ -74,6 +74,7 @@ class TranscriptionsHandler {
 
     return await transcription.update({
       state,
+      language,
       recognitionResult,
     })
   }

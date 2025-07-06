@@ -41,3 +41,58 @@ export function millisecondsToTimestamp(ms: number) {
 		"0"
 	)}:${seconds.padStart(2, "0")},${milliseconds}`;
 }
+
+export function millisecondsToAssTimestamp(ms: number) {
+	const hours = Math.floor(ms / 3600000).toString();
+	const minutes = Math.floor((ms % 3600000) / 60000).toString();
+	const seconds = Math.floor(((ms % 360000) % 60000) / 1000).toString();
+	const milliseconds = Math.floor(ms % 1000).toString();
+	return `${hours}:${minutes.padStart(
+		2,
+		"0"
+	)}:${seconds.padStart(2, "0")}.${milliseconds}`;
+}
+
+
+const scriptHeader = `[Script Info]
+
+ScriptType: v4.00+
+WrapStyle: 0
+Collisions: Reverse
+PlayResX: 384
+PlayResY: 288
+Timer: 100.0000
+ScaledBorderAndShadow: no
+Last Style Storage: Default
+Video Aspect Ratio: 0
+Video Zoom: 6
+Video Position: 0
+
+[V4+ Styles]
+Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
+Style: Default,HONOR Sans CN,20,&H0080FFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,1,0,1,2,0,2,1,1,6,1
+Style: Secondary,Helvetica,12,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0,0,100,100,0,0,1,2,0,2,1,1,6,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+`;
+
+export function timelineToAss(recognitionResult: RecognitionResult): string {
+	let result = scriptHeader
+
+	const transcriptContent = recognitionResult.timeline.map((t) => {
+		return `Dialogue: 1,${millisecondsToAssTimestamp(t.startTime)},${millisecondsToAssTimestamp(t.endTime)},Secondary,,0,0,0,,${t.text}`
+	}).join("\n")
+
+	result += transcriptContent
+	if (recognitionResult.translationLanguage) {
+		const translationContent = recognitionResult.timeline.map((t) => {
+			return `Dialogue: 1,${millisecondsToAssTimestamp(t.startTime)},${millisecondsToAssTimestamp(t.endTime)},Default,,0,0,0,,${t.translation}`
+		}).join("\n")
+
+		result += ("\n" + translationContent)
+	}
+
+
+	return result
+}
