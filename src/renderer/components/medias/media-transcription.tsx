@@ -31,7 +31,7 @@ import { TranslateConfigForm } from "./translate-config-form";
 
 export const MediaTranscription = () => {
 	const { transcription, currentSegmentIndex } = useContext(
-		MediaShadowProviderContext
+		MediaShadowProviderContext,
 	);
 	const { TrPlayerApp } = useContext(AppSettingsProviderContext);
 	const { translate } = useAiCommand();
@@ -70,7 +70,7 @@ export const MediaTranscription = () => {
 									providerId: data.providerId,
 									modelId: data.modelId,
 									abortSignal: abortController.signal,
-								}
+								},
 							);
 
 							setTranslationResults((prev) => ({
@@ -85,7 +85,7 @@ export const MediaTranscription = () => {
 							return { index, entry, translation: null };
 						}
 					});
-				}
+				},
 			);
 
 			const results = await Promise.all(translationPromises);
@@ -95,6 +95,7 @@ export const MediaTranscription = () => {
 					entry.translation = translation;
 				}
 			});
+			transcription.recognitionResult.translationLanguage = data.targetLanguage;
 
 			TrPlayerApp.transcriptions.update(transcription.id, {
 				recognitionResult: transcription.recognitionResult,
@@ -214,7 +215,7 @@ export const MediaTranscription = () => {
 									key={`segment-${index}`}
 									className={cn(
 										"flex gap-3 my-2",
-										currentSegmentIndex === index && "font-bold"
+										currentSegmentIndex === index && "font-bold",
 									)}
 									ref={(ref) => {
 										transcriptionSegmentRefs.current[index] = ref;

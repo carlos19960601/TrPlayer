@@ -8,6 +8,7 @@ type LlmProviderType = {
   apiKeyPlaceholder?: string;
   icon?: IconType;
   models: LlmModelType[];
+  available?: boolean;
 }
 
 type LlmModelType = {
