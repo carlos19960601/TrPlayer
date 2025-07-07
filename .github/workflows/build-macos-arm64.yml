@@ -1,0 +1,10 @@
+# 语法 https://docs.github.com/zh/actions/reference/workflow-syntax-for-github-actions
+name: Build App (macos-arm64)
+on: workflow_dispatch # 手动触发
+
+jobs:
+  build: # <job_id>
+    runs-on: macos-15
+    steps: # 每个step运行在单独的进程中
+      - uses: actions/checkout@v4
+
