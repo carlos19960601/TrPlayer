@@ -137,3 +137,8 @@ Dialog用法
   </DialogContent>
 </Dialog>
 ```
+
+
+asar打包
+
+electron会将我们写的代码，node_modules一起打包到asar中但是，asar是只读的，一些native的，二进制文件需要不能打到asar中。对于这些不能打包到asar中的我们需要配置unpackDir，使用的时候也要注意其路径是 app.asar.unpacked
