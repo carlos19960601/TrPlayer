@@ -14,11 +14,13 @@ export default defineConfig({
 		},
 		rollupOptions: {
 			external: [...external],
+			output: {
+				strict: false,
+			},
 		},
 		commonjsOptions: {
 			transformMixedEsModules: true,
-			// 	defaultIsModuleExports: true,
-			// 	esmExternals: true,
+			defaultIsModuleExports: true,
 		},
 	},
 	plugins: [
