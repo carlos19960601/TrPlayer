@@ -13,6 +13,7 @@ const config: ForgeConfig = {
 			unpackDir: ".vite/build/lib",
 		},
 		icon: "./assets/icon",
+		protocols: [],
 	},
 	rebuildConfig: {},
 	makers: [
