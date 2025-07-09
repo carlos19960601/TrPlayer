@@ -1,0 +1,34 @@
+# 语法 https://docs.github.com/zh/actions/reference/workflow-syntax-for-github-actions
+name: Build App (Windows)
+on: workflow_dispatch # 手动触发
+
+jobs:
+  build: # <job_id>
+    runs-on: windows-latest
+    steps: # 每个step运行在单独的进程中
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+          
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Make
+        run: pnpm run make
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TrPlayer-${{ runner.os }}-x64-build-${{ github.sha}}
+          path: |
+            out/make/**/*.exe
+
+
+

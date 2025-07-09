@@ -85,7 +85,8 @@
 		"tinyEnDescription": "Fast, low quality(77.7MB)",
 		"language": "Language",
 		"transcribe": "Transcribe Model",
-		"uninstalled": "Uninstalled"
+		"uninstalled": "Uninstalled",
+		"installed": "Installed"
 	},
 	"models": {
 		"audio": {

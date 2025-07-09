@@ -6,8 +6,9 @@ import os from "node:os";
 import path from "node:path";
 import settings from "./settings";
 
+//  whisper bin file will be in /app.asar.unpacked instead of /app.asar
+const __dirname = import.meta.dirname.replace("app.asar", "app.asar.unpacked");
 const logger = log.scope("Whisper");
-const __dirname = import.meta.dirname;
 
 const TEN_MINUTES = 1000 * 60 * 10; // 10 minutes
 

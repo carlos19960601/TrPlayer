@@ -83,8 +83,8 @@ export const TranscriptionCreateForm = (props: {
 												<Button variant="outline" className="w-32">
 													{field.value
 														? languages.find(
-																(language) => language.value === field.value
-														  )?.label
+																(language) => language.value === field.value,
+															)?.label
 														: "Select language"}
 													<ChevronsUpDownIcon className="opacity-50" />
 												</Button>
@@ -115,7 +115,7 @@ export const TranscriptionCreateForm = (props: {
 																		"ml-auto",
 																		language.value === field.value
 																			? "opacity-100"
-																			: "opacity-0"
+																			: "opacity-0",
 																	)}
 																/>
 															</CommandItem>
@@ -157,7 +157,7 @@ export const TranscriptionCreateForm = (props: {
 															className="text-muted-foreground mt-1 block text-xs"
 															data-desc
 														>
-															{t("model.uninstalled")}
+															{t(`model.${model.state}`)}
 														</span>
 													</div>
 												</SelectItem>
