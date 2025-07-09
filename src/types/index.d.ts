@@ -57,10 +57,11 @@ type TranslateConfigType = {
 
 type MediaExportConfigType = {
 	format: string;
+	language: ExportLanguageType;
 }
 
 
-type ExportLanguageType = "original" | "translation" | "double"
+type ExportLanguageType = "original" | "translated" | "multi"
 
 type AssExportConfigType = {
 	language: ExportLanguageType;

@@ -58,7 +58,7 @@ type TrPlayerType = {
     findAll: (params: any) => Promise<TranscriptionType[]>;
     update: (id: string, params: Partial<Omit<TranscriptionType, "id">>) => Promise<void>;
     destroy: (id: string) => Promise<undefined>;
-    export: (id: string, savePath: string) => Promise<void>;
+    export: (id: string, params: any) => Promise<void>;
   },
   userSettings: {
     get: (key: UserSettingKeyEnum) => Promise<any>;

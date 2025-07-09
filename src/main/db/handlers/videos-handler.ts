@@ -1,5 +1,6 @@
 import log from "@/main/logger";
-import { Video } from "@main/db/models";
+import { timelineToAss } from "@/utils";
+import { Transcription, Video } from "@main/db/models";
 import { IpcMainInvokeEvent, ipcMain } from "electron";
 import { Attributes, WhereOptions } from "sequelize";
 
@@ -39,11 +40,26 @@ class VideosHandler {
 		}
 	}
 
-	private async export(_event: IpcMainInvokeEvent, id: string, savePath: string) {
-		const video = await Video.findByPk(id);
+	private async export(_event: IpcMainInvokeEvent, id: string, params: {
+		savePath: string;
+		language: ExportLanguageType;
+		format: string;
+	}) {
+		const video = await Video.findByPk(id, {
+			include: [
+				{
+					association: "transcription",
+					model: Transcription,
+				}
+			]
+		});
 		if (!video) {
 			throw new Error("Video not found");
 		}
+
+
+		const assContent = timelineToAss(video.transcription.recognitionResult, params.language)
+		// fs.writeFileSync(params.filePath, assContent)
 
 		return
 	}

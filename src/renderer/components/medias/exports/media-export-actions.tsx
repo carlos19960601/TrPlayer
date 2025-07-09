@@ -1,3 +1,4 @@
+import { VideoFormats } from "@/constants";
 import {
 	AppSettingsProviderContext,
 	MediaShadowProviderContext,
@@ -31,8 +32,6 @@ export const MediaExportActions = () => {
 	const [assDialogOpen, setAssDialogOpen] = useState(false);
 	const [videoDialogOpen, setVideoDialogOpen] = useState(false);
 
-	console.log(transcription);
-
 	const handleAssExport = (data: AssExportConfigType) => {
 		TrPlayerApp.dialog
 			.showSaveDialog({
@@ -49,7 +48,10 @@ export const MediaExportActions = () => {
 				if (!savePath) return;
 
 				toast.promise(
-					TrPlayerApp.transcriptions.export(transcription.id, savePath),
+					TrPlayerApp.transcriptions.export(transcription.id, {
+						savePath,
+						...data,
+					}),
 					{
 						success: () => t("exportedSuccessfully"),
 						error: t("exportedFailed"),
@@ -62,13 +64,22 @@ export const MediaExportActions = () => {
 	};
 
 	const handleVideoExport = (data: MediaExportConfigType) => {
+		let lang = transcription.recognitionResult?.language;
+		if (data.language === "translated") {
+			lang = transcription.recognitionResult?.translationLanguage;
+		}
+		if (data.language === "multi") {
+			lang = `lang-${transcription.recognitionResult?.translationLanguage}`;
+		}
+
 		TrPlayerApp.dialog
 			.showSaveDialog({
 				title: t("export"),
+				defaultPath: `${media.name}.${lang}.${data.format}`,
 				filters: [
 					{
 						name: "Video",
-						extensions: [],
+						extensions: VideoFormats,
 					},
 				],
 			})
@@ -78,6 +89,7 @@ export const MediaExportActions = () => {
 				toast.promise(
 					TrPlayerApp.videos.export(media.id, {
 						savePath,
+						...data,
 					}),
 					{
 						success: () => t("exportedSuccessfully"),

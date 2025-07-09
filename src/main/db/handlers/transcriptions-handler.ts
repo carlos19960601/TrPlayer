@@ -100,7 +100,10 @@ class TranscriptionsHandler {
     return await transcription.destroy();
   }
 
-  private async export(event: IpcMainInvokeEvent, id: string, filePath: string) {
+  private async export(event: IpcMainInvokeEvent, id: string, params: {
+    filePath: string;
+    language: ExportLanguageType;
+  }) {
     const transcription = await Transcription.findByPk(id);
     if (!transcription) {
       throw new Error("models.transcription.notFound");
@@ -110,8 +113,8 @@ class TranscriptionsHandler {
       throw new Error("models.transcription.notReady");
     }
 
-    const assContent = timelineToAss(transcription.recognitionResult)
-    fs.writeFileSync(filePath, assContent)
+    const assContent = timelineToAss(transcription.recognitionResult, params.language)
+    fs.writeFileSync(params.filePath, assContent)
 
     return
   }

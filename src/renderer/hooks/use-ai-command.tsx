@@ -76,6 +76,11 @@ export const useAiCommand = () => {
 					baseURL: llmProvider.baseUrl,
 					apiKey: llmProvider.apiKey,
 				}).chat(modelId);
+			case "openai":
+				return createOpenAI({
+					baseURL: llmProvider.baseUrl,
+					apiKey: llmProvider.apiKey,
+				}).chat(modelId);
 			default:
 				throw new Error(`Unsupported provider ${providerId}`);
 		}
