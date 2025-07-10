@@ -1,4 +1,5 @@
 import { MakerDeb } from "@electron-forge/maker-deb";
+import { MakerDMG } from "@electron-forge/maker-dmg";
 import { MakerRpm } from "@electron-forge/maker-rpm";
 import { MakerSquirrel } from "@electron-forge/maker-squirrel";
 import { MakerZIP } from "@electron-forge/maker-zip";
@@ -6,11 +7,13 @@ import { FusesPlugin } from "@electron-forge/plugin-fuses";
 import { VitePlugin } from "@electron-forge/plugin-vite";
 import type { ForgeConfig } from "@electron-forge/shared-types";
 import { FuseV1Options, FuseVersion } from "@electron/fuses";
+import { DependenciesPlugin } from "electron-forge-plugin-dependencies";
+import pkg from "./package.json" with { type: "json" };
 
 const config: ForgeConfig = {
 	packagerConfig: {
 		asar: {
-			unpackDir: ".vite/build/lib",
+			unpackDir: "{.vite/build/lib,node_modules/ffmpeg-static,node_modules/@andrkrn/ffprobe-static}",
 		},
 		icon: "./assets/icon",
 		protocols: [],
@@ -21,6 +24,9 @@ const config: ForgeConfig = {
 		new MakerZIP({}, ["darwin", "linux"]),
 		new MakerRpm({}),
 		new MakerDeb({}),
+		new MakerDMG({
+			 icon: "./assets/icon.png",
+		})
 	],
 	plugins: [
 		new VitePlugin({
@@ -61,6 +67,9 @@ const config: ForgeConfig = {
 			name: "@electron-forge/plugin-auto-unpack-natives",
 			config: {},
 		},
+		new DependenciesPlugin({
+			dependencies: Object.keys(pkg.dependencies),
+		}),
 	],
 };
 

@@ -2,6 +2,8 @@ onlyBuiltDependencies:
   - '@andrkrn/ffprobe-static'
   - ffmpeg-static
   - sqlite3
+  - macos-alias
+  - fs-xattr
 ignoredBuiltDependencies:
   - '@biomejs/biome'
   - '@tailwindcss/oxide'

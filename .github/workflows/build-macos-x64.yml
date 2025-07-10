@@ -16,6 +16,12 @@ jobs:
         with:
           node-version: 24
           cache: 'pnpm'
+      
+      - name: Install Python dependencies (distutils)
+        run: |
+          python3 -m ensurepip --default-pip
+          python3 -m pip install --upgrade pip
+          python3 -m pip install setuptools wheel
 
       - name: Install dependencies
         run: pnpm install
@@ -26,5 +32,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: TrPlayer-${{ runner.os }}-x64-build-${{ github.sha}}
-          path: out/make/**/*.zip
+          name: TrPlayer-${{ runner.os }}-x64-build-${{ github.ref_name }}
+          path: |
+            out/make/**/*.dmg

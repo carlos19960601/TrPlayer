@@ -28,13 +28,13 @@ export const MediaProvider = () => {
 
 	const handleTimeUpdate = (
 		detail: MediaTimeUpdateEventDetail,
-		nativeEvent: MediaTimeUpdateEvent,
+		nativeEvent: MediaTimeUpdateEvent
 	) => {
 		if (transcription?.recognitionResult) {
 			const index = transcription.recognitionResult.timeline.findIndex(
 				(t) =>
 					detail.currentTime * 1000 >= t.startTime &&
-					detail.currentTime * 1000 < t.endTime,
+					detail.currentTime * 1000 < t.endTime
 			);
 			setCurrentSegmentIndex(index);
 		}
@@ -50,7 +50,7 @@ export const MediaProvider = () => {
 		});
 		playerRef.current.textRenderers.add(renderer);
 
-		const content = timelineToAss(transcription.recognitionResult);
+		const content = timelineToAss(transcription.recognitionResult, "multi");
 		playerRef.current.textTracks.clear();
 		playerRef.current.textTracks.add(
 			new TextTrack({
@@ -59,7 +59,7 @@ export const MediaProvider = () => {
 				kind: "subtitles",
 				type: "ass",
 				language: "double",
-			}),
+			})
 		);
 	}, [transcription]);
 
