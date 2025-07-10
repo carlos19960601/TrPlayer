@@ -1,6 +1,7 @@
 {
 	"download": "下载",
 	"cancel": "取消",
+	"delete": "删除",
 	"transcribe": "转写",
 	"transcribing": "正在语音转文本",
 	"unsupportedMediaType": "不支持的媒体文件",
@@ -14,6 +15,20 @@
 	"apply": "应用",
 	"stop": "停止",
 	"translate": "翻译",
+	"export": {
+		"self": "导出",
+		"ass": "导出ASS",
+		"video": "导出视频",
+		"language": "语言",
+		"languageHint": "选择导出的字幕语言",
+		"languages": {
+			"original": "原始语言",
+			"translated": "翻译语言",
+			"multi": "双语"
+		},
+		"success": "导出成功",
+		"failed": "导出失败"
+	},
 	"form": {
 		"field": {
 			"url": "{{field}} 必须是一个有效的 URL",
@@ -54,6 +69,10 @@
 		"zh": "简体中文",
 		"zh-CN": "简体中文"
 	},
+	"media": {
+		"format": "文件格式",
+		"formatHint": "选择文件格式"
+	},
 	"model": {
 		"modelFolder": "Model文件夹",
 		"openFolder": "打开文件夹",
@@ -69,7 +88,8 @@
 		"baseEnDescription": "输出文字速度快，转写文字质量一般。(148MB)",
 		"language": "原文件语言",
 		"transcribe": "转写模型",
-		"uninstalled": "未下载"
+		"uninstalled": "未下载",
+		"installed": "已下载"
 	},
 	"models": {
 		"audio": {
@@ -86,7 +106,8 @@
 		},
 		"transcription": {
 			"filename": "文件名",
-			"notFound": "未找到转写结果"
+			"notFound": "未找到转写结果",
+			"notReady": "转写结果未准备好"
 		},
 		"video": {
 			"fileNotFound": "无法访问文件 {{file}}",
@@ -102,6 +123,8 @@
 		"localFile": "选择本地媒体"
 	},
 	"transcription": {
-		"autoScroll": "跟随滚动"
+		"self": "转写",
+		"autoScroll": "跟随滚动",
+		"export": "导出"
 	}
 }

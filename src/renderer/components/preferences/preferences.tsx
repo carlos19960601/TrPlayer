@@ -1,8 +1,8 @@
 import { cn } from "@/renderer/lib/utils";
+import { Button, ScrollArea } from "@renderer/components/ui";
 import { t } from "i18next";
 import { FolderIcon, SettingsIcon } from "lucide-react";
 import { useState } from "react";
-import { Button, ScrollArea } from "../ui";
 import { GeneralSettings } from "./general-settings";
 import { LlmProviderSettings } from "./llm-provider-settings";
 import ModelSettings from "./model-settings";
@@ -57,7 +57,7 @@ export const Preferences = () => {
 						size="sm"
 						className={cn(
 							"capitalize w-full justify-start mb-2",
-							activeTab === tab.value ? "" : "hover:bg-muted",
+							activeTab === tab.value ? "" : "hover:bg-muted"
 						)}
 						onClick={() => setActiveTab(tab.value)}
 					>

@@ -11,7 +11,7 @@ import { t } from "i18next";
 import { ArrowLeftIcon, SettingsIcon } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Preferences } from "../preferences";
+import { Preferences } from "@renderer/components/preferences";
 
 interface TitleBarProps {}
 
@@ -63,6 +63,7 @@ const TitleBar = (props: TitleBarProps) => {
 						<Preferences />
 					</DialogContent>
 				</Dialog>
+				
 			</div>
 		</div>
 	);

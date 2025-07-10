@@ -73,7 +73,7 @@ class Whisper {
 						const recognizeResult = {
 							language: whisperResult.result.language,
 							timeline: whisperResult.transcription.map((t) => ({
-								text: t.text,
+								text: t.text.trim(),
 								startTime: t.offsets.from,
 								endTime: t.offsets.to,
 							})),

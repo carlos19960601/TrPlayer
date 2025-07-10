@@ -1,6 +1,6 @@
+import { AppSettingsProviderContext } from "@renderer/context";
 import log from "electron-log/renderer";
 import { useContext, useState } from "react";
-import { AppSettingsProviderContext } from "../context";
 
 const logger = log.scope("use-transcribe.tsx");
 
@@ -20,7 +20,7 @@ export const useTranscribe = () => {
 			targetType?: string;
 			language: string;
 			model: string;
-		},
+		}
 	) => {
 		const { language, model } = params || {};
 		const url = await transcode(mediaSrc);
@@ -35,7 +35,7 @@ export const useTranscribe = () => {
 
 	const transcribeByLocal = async (
 		url: string,
-		options: { language: string; model: string },
+		options: { language: string; model: string }
 	) => {
 		const { language, model } = options;
 		const res = await TrPlayerApp.whisper.recognize({ url, language, model });

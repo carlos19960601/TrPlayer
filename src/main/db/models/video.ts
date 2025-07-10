@@ -65,9 +65,7 @@ export class Video extends Model<Video> {
 		foreignKey: "targetId",
 		constraints: false,
 		scope: {
-			where: {
-				target_type: "Video",
-			},
+			target_type: "Video",
 		},
 	})
 	transcription: Transcription;
@@ -157,6 +155,10 @@ export class Video extends Model<Video> {
 			logger.error(err);
 			throw err;
 		});
+	}
+
+	async export(savePath: string) {
+		return;
 	}
 
 	static notify(video: Video, action: "create" | "update" | "destroy") {

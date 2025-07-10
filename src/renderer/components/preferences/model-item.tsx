@@ -1,10 +1,9 @@
 import { AppSettingsProviderContext } from "@/renderer/context";
 import { ModelProviderContext } from "@/renderer/context/model-provider";
+import { Button, Progress } from "@renderer/components/ui";
 import { t } from "i18next";
 import { CircleCheck } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { Button } from "../ui";
-import { Progress } from "../ui/progress";
 
 interface ModelItemProps {
 	value: string;

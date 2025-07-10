@@ -19,7 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
+      
       - name: Make
         run: pnpm run make
       

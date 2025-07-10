@@ -3,7 +3,7 @@ import {
 	DbProviderContext,
 } from "@/renderer/context";
 import { transcriptionsReducer } from "@/renderer/reducers";
-import { Tabs, TabsList, TabsTrigger } from "@renderer/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@renderer/components/ui";
 import { t } from "i18next";
 import { LayoutGridIcon, LayoutListIcon } from "lucide-react";
 import { useContext, useEffect, useReducer, useState } from "react";
@@ -33,10 +33,10 @@ export const TranscriptionsComponent = () => {
 				where: {},
 				targetType,
 			})
-			.then((transcriptions) => {
+			.then((transcriptions: TranscriptionType[]) => {
 				dispatchTranscriptions({ type: "set", records: transcriptions });
 			})
-			.catch((err) => {
+			.catch((err: Error) => {
 				toast.error(err.message);
 			})
 			.finally(() => {
@@ -109,7 +109,7 @@ export const TranscriptionsComponent = () => {
 					</div>
 				)}
 				{layout === "list" && (
-					<div>
+					<div className="flex flex-col gap-2">
 						{transcriptions.map((transcription) => (
 							<TranscriptionItem
 								transcription={transcription}

@@ -27,10 +27,12 @@ import {
 } from "lucide-react";
 import pLimit from "p-limit";
 import { useContext, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
+import { MediaExportActions } from "./exports/media-export-actions";
 import { TranslateConfigForm } from "./translate-config-form";
 
 export const MediaTranscription = () => {
-	const { transcription, currentSegmentIndex } = useContext(
+	const { media, transcription, currentSegmentIndex } = useContext(
 		MediaShadowProviderContext,
 	);
 	const { TrPlayerApp } = useContext(AppSettingsProviderContext);
@@ -112,6 +114,8 @@ export const MediaTranscription = () => {
 		abortController?.abort();
 		setTranslating(false);
 	};
+
+	
 
 	useEffect(() => {
 		if (!autoScroll) return;
@@ -196,6 +200,8 @@ export const MediaTranscription = () => {
 									<p>{t("transcription.autoScroll")}</p>
 								</TooltipContent>
 							</Tooltip>
+
+							<MediaExportActions />
 						</div>
 					</div>
 				</CardTitle>

@@ -18,6 +18,7 @@ import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
+	Progress,
 	Select,
 	SelectContent,
 	SelectItem,
@@ -29,7 +30,6 @@ import { CheckIcon, ChevronsUpDownIcon, LoaderIcon } from "lucide-react";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Progress } from "../ui/progress";
 
 const transcriptionSchema = z.object({
 	language: z.string(),
@@ -157,7 +157,7 @@ export const TranscriptionCreateForm = (props: {
 															className="text-muted-foreground mt-1 block text-xs"
 															data-desc
 														>
-															{t("model.uninstalled")}
+															{t(`model.${model.state}`)}
 														</span>
 													</div>
 												</SelectItem>

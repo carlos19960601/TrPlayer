@@ -1,0 +1,10 @@
+onlyBuiltDependencies:
+  - '@andrkrn/ffprobe-static'
+  - ffmpeg-static
+  - sqlite3
+ignoredBuiltDependencies:
+  - '@biomejs/biome'
+  - '@tailwindcss/oxide'
+  - electron
+  - electron-winstaller
+  - esbuild
