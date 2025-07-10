@@ -53,6 +53,11 @@ class VideosHandler {
 			format: string;
 		}
 	) {
+		logger.info("export video", {
+			id,
+			params,
+		});
+
 		const video = await Video.findByPk(id, {
 			include: [
 				{

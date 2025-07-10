@@ -62,9 +62,16 @@ type TrPlayerType = {
 		update: (
 			id: string,
 			params: Partial<Omit<TranscriptionType, "id">>
-		) => Promise<void>;w
+		) => Promise<void>;
+		w;
 		destroy: (id: string) => Promise<undefined>;
-		export: (id: string, params: any) => Promise<void>;
+		export: (
+			id: string,
+			params: {
+				savePath: string;
+				language: ExportLanguageType;
+			}
+		) => Promise<void>;
 	};
 	userSettings: {
 		get: (key: UserSettingKeyEnum) => Promise<any>;

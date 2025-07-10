@@ -53,9 +53,9 @@ export const MediaExportActions = () => {
 						...data,
 					}),
 					{
-						success: () => t("exportedSuccessfully"),
-						error: t("exportedFailed"),
-					},
+						success: () => t("export.success"),
+						error: t("export.failed"),
+					}
 				);
 			})
 			.finally(() => {
@@ -69,7 +69,7 @@ export const MediaExportActions = () => {
 			lang = transcription.recognitionResult?.translationLanguage;
 		}
 		if (data.language === "multi") {
-			lang = `lang-${transcription.recognitionResult?.translationLanguage}`;
+			lang = `${lang}-${transcription.recognitionResult?.translationLanguage}`;
 		}
 
 		TrPlayerApp.dialog
@@ -92,9 +92,9 @@ export const MediaExportActions = () => {
 						...data,
 					}),
 					{
-						success: () => t("exportedSuccessfully"),
-						error: t("exportedFailed"),
-					},
+						success: () => t("export.success"),
+						error: t("export.failed"),
+					}
 				);
 			})
 			.finally(() => {

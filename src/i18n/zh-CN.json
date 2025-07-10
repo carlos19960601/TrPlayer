@@ -25,7 +25,9 @@
 			"original": "原始语言",
 			"translated": "翻译语言",
 			"multi": "双语"
-		}
+		},
+		"success": "导出成功",
+		"failed": "导出失败"
 	},
 	"form": {
 		"field": {

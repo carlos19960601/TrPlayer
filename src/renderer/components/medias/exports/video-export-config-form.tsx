@@ -1,4 +1,4 @@
-import { VideoFormats } from "@/constants";
+import { ExportLanguages, VideoFormats } from "@/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { SelectValue } from "@radix-ui/react-select";
@@ -25,12 +25,14 @@ export const VideoExportConfigForm = (props: {
 
 	const exportConfigFormSchema = z.object({
 		format: z.string(),
+		language: z.string(),
 	});
 
 	const form = useForm<z.infer<typeof exportConfigFormSchema>>({
 		resolver: zodResolver(exportConfigFormSchema),
 		values: {
 			format: "mp4",
+			language: "multi",
 		},
 	});
 
@@ -60,6 +62,37 @@ export const VideoExportConfigForm = (props: {
 											{VideoFormats.map((format) => (
 												<SelectItem key={format} value={format}>
 													{format}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+								</FormItem>
+							)}
+						/>
+					</div>
+
+					<div className="flex justify-between items-center">
+						<div className="flex flex-col">
+							<p className="font-bold">{t("export.language")}</p>
+							<p className="text-muted-foreground text-xs">
+								{t("export.languageHint")}
+							</p>
+						</div>
+						<FormField
+							control={form.control}
+							name="language"
+							render={({ field }) => (
+								<FormItem>
+									<Select value={field.value} onValueChange={field.onChange}>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder="Select a format" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{ExportLanguages.map((lang) => (
+												<SelectItem key={lang} value={lang}>
+													{t(`export.languages.${lang}`)}
 												</SelectItem>
 											))}
 										</SelectContent>
