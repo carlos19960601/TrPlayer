@@ -1,5 +1,5 @@
+import { Separator } from "@renderer/components/ui";
 import { useState } from "react";
-import { Separator } from "../ui/separator";
 import LlmProviderConfig from "./llm-provider-config";
 import { LlmProviderList } from "./llm-provider-list";
 

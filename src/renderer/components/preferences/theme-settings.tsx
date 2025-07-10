@@ -1,13 +1,13 @@
 import { useTheme } from "@/renderer/context";
-import { t } from "i18next";
-import { PaletteIcon } from "lucide-react";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "../ui";
+} from "@renderer/components/ui";
+import { t } from "i18next";
+import { PaletteIcon } from "lucide-react";
 
 export const ThemeSettings = () => {
 	const { setTheme, theme } = useTheme();

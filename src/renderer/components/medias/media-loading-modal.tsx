@@ -1,4 +1,5 @@
 import { MediaShadowProviderContext } from "@/renderer/context";
+import { TranscriptionCreateForm } from "@renderer/components/transcriptions";
 import {
 	AlertDialog,
 	AlertDialogContent,
@@ -9,7 +10,6 @@ import {
 import { t } from "i18next";
 import { LoaderIcon } from "lucide-react";
 import { useContext } from "react";
-import { TranscriptionCreateForm } from "../transcriptions/transcription-create-form";
 
 export const MediaLoadingModal = () => {
 	const { transcription } = useContext(MediaShadowProviderContext);

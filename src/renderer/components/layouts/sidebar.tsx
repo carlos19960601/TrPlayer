@@ -4,7 +4,7 @@ import { t } from "i18next";
 import { HomeIcon, LucideIcon } from "lucide-react";
 import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Button, ScrollArea } from "../ui";
+import { Button, ScrollArea } from "@renderer/components/ui";
 
 const Sidebar = () => {
 	const { isSidebarCollapsed } = useContext(AppSettingsProviderContext);

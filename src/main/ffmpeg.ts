@@ -98,17 +98,30 @@ class FfmpegWrapper {
 		});
 	}
 
-
-	embedHardSubtitles(input: string, subtile: string, output: string) {
-		const ffmpeg = Ffmpeg()
+	embedHardSubtitles(
+		input: string,
+		subtitle: string,
+		output: string
+	): Promise<string> {
+		const ffmpeg = Ffmpeg();
 		return new Promise((resolve, reject) => {
-			ffmpeg.input(input).outputOptions([
-				"-vf",
-				`subtitles=${subtile}`,
-				"-c:a copy",
-				"-y",
-			]).save(output)
-		})
+			ffmpeg
+				.input(input)
+				.outputOptions(["-vf", `subtitles=${subtitle}`, "-c:a copy", "-y"])
+				.on("start", (commandLine) => {
+					logger.info("Spawned FFmpeg with command: " + commandLine);
+					fs.ensureDirSync(path.dirname(output));
+				})
+				.on("end", () => {
+					logger.info(`File ${output} created`);
+					resolve(output);
+				})
+				.on("error", (err) => {
+					logger.error(err);
+					reject(err);
+				})
+				.save(output);
+		});
 	}
 
 	registerIpcHandlers() {

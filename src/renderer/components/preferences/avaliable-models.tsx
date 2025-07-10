@@ -1,9 +1,15 @@
 import { ModelProviderContext } from "@/renderer/context/model-provider";
+import {
+	Button,
+	ScrollArea,
+	Tabs,
+	TabsContent,
+	TabsList,
+	TabsTrigger,
+} from "@renderer/components/ui";
 import { t } from "i18next";
 import { RefreshCcwIcon } from "lucide-react";
 import { useContext } from "react";
-import { Button, ScrollArea } from "../ui";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { ModelList } from "./model-list";
 
 export const AvailableModels = () => {

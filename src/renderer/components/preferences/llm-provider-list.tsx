@@ -1,5 +1,5 @@
 import { useAiCommand } from "@/renderer/hooks";
-import { Button } from "../ui";
+import { Button } from "@renderer/components/ui";
 
 export const LlmProviderList = (props: {
 	selectedProvider: LlmProviderType;

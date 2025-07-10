@@ -18,6 +18,7 @@ import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
+	Progress,
 	Select,
 	SelectContent,
 	SelectItem,
@@ -29,7 +30,6 @@ import { CheckIcon, ChevronsUpDownIcon, LoaderIcon } from "lucide-react";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Progress } from "../ui/progress";
 
 const transcriptionSchema = z.object({
 	language: z.string(),
@@ -83,8 +83,8 @@ export const TranscriptionCreateForm = (props: {
 												<Button variant="outline" className="w-32">
 													{field.value
 														? languages.find(
-																(language) => language.value === field.value,
-															)?.label
+																(language) => language.value === field.value
+														  )?.label
 														: "Select language"}
 													<ChevronsUpDownIcon className="opacity-50" />
 												</Button>
@@ -115,7 +115,7 @@ export const TranscriptionCreateForm = (props: {
 																		"ml-auto",
 																		language.value === field.value
 																			? "opacity-100"
-																			: "opacity-0",
+																			: "opacity-0"
 																	)}
 																/>
 															</CommandItem>

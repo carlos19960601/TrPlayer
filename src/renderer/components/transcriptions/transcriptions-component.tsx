@@ -3,7 +3,7 @@ import {
 	DbProviderContext,
 } from "@/renderer/context";
 import { transcriptionsReducer } from "@/renderer/reducers";
-import { Tabs, TabsList, TabsTrigger } from "@renderer/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@renderer/components/ui";
 import { t } from "i18next";
 import { LayoutGridIcon, LayoutListIcon } from "lucide-react";
 import { useContext, useEffect, useReducer, useState } from "react";
@@ -20,7 +20,7 @@ export const TranscriptionsComponent = () => {
 
 	const [transcriptions, dispatchTranscriptions] = useReducer(
 		transcriptionsReducer,
-		[],
+		[]
 	);
 
 	const fetchTranscriptions = async () => {

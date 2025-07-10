@@ -14,4 +14,7 @@ export * from "./select";
 export * from "./sonner";
 export * from "./tooltip";
 export * from "./table";
-export * from "./dropdown-menu"
+export * from "./dropdown-menu";
+export * from "./tabs";
+export * from "./separator";
+export * from "./progress";

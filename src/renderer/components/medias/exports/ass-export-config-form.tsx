@@ -1,9 +1,8 @@
 import { ExportLanguages } from "@/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogClose } from "@radix-ui/react-dialog";
-import { SelectValue } from "@radix-ui/react-select";
 import {
 	Button,
+	DialogClose,
 	DialogFooter,
 	Form,
 	FormControl,
@@ -13,6 +12,7 @@ import {
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
+	SelectValue,
 } from "@renderer/components/ui";
 import { t } from "i18next";
 import { useForm } from "react-hook-form";

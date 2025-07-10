@@ -1,11 +1,6 @@
 import { AppSettingsProviderContext } from "@/renderer/context";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "i18next";
-import { useContext } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
-import PasswordInput from "../originui/password-input";
+import PasswordInput from "@renderer/components/originui/password-input";
 import {
 	Button,
 	Form,
@@ -15,7 +10,12 @@ import {
 	FormLabel,
 	FormMessage,
 	Input,
-} from "../ui";
+} from "@renderer/components/ui";
+import { t } from "i18next";
+import { useContext } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const LlmProviderConfig = (props: { selectedProvider: LlmProviderType }) => {
 	const { selectedProvider } = props;

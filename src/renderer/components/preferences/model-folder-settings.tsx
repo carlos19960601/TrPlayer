@@ -2,7 +2,7 @@ import { AppSettingsProviderContext } from "@/renderer/context";
 import { t } from "i18next";
 import { FolderOpenIcon, PackageIcon } from "lucide-react";
 import { useContext } from "react";
-import { Button } from "../ui";
+import { Button } from "@renderer/components/ui";
 
 export const ModelFolderSettings = () => {
 	const { modelPath, TrPlayerApp } = useContext(AppSettingsProviderContext);

@@ -1,7 +1,11 @@
+import ffmpeg from "@/main/ffmpeg";
 import log from "@/main/logger";
+import settings from "@/main/settings";
 import { timelineToAss } from "@/utils";
 import { Transcription, Video } from "@main/db/models";
 import { IpcMainInvokeEvent, ipcMain } from "electron";
+import fs from "fs-extra";
+import path from "node:path";
 import { Attributes, WhereOptions } from "sequelize";
 
 const logger = log.scope("db/handlers/videos-handler");
@@ -40,28 +44,68 @@ class VideosHandler {
 		}
 	}
 
-	private async export(_event: IpcMainInvokeEvent, id: string, params: {
-		savePath: string;
-		language: ExportLanguageType;
-		format: string;
-	}) {
+	private async export(
+		_event: IpcMainInvokeEvent,
+		id: string,
+		params: {
+			savePath: string;
+			language: ExportLanguageType;
+			format: string;
+		}
+	) {
 		const video = await Video.findByPk(id, {
 			include: [
 				{
 					association: "transcription",
 					model: Transcription,
-				}
-			]
+				},
+			],
 		});
 		if (!video) {
 			throw new Error("Video not found");
 		}
 
+		if (!video.transcription?.recognitionResult) {
+			throw new Error("No transcription result found for this video");
+		}
 
-		const assContent = timelineToAss(video.transcription.recognitionResult, params.language)
-		// fs.writeFileSync(params.filePath, assContent)
+		// 确保输出目录存在
+		fs.ensureDirSync(path.dirname(params.savePath));
 
-		return
+		// 生成 ASS 字幕内容
+		const assContent = timelineToAss(
+			video.transcription.recognitionResult,
+			params.language
+		);
+
+		// 创建临时字幕文件
+		const tempSubtitleFile = path.join(
+			settings.cachePath(),
+			`subtitle_${Date.now()}.ass`
+		);
+
+		try {
+			// 写入字幕文件
+			fs.writeFileSync(tempSubtitleFile, assContent);
+
+			// 使用 ffmpeg 将字幕内嵌到视频中
+			const outputPath = await ffmpeg.embedHardSubtitles(
+				video.filePath,
+				tempSubtitleFile,
+				params.savePath
+			);
+
+			logger.info(`Video with embedded subtitles created: ${outputPath}`);
+
+			return {
+				success: true,
+				outputPath,
+				message: "Video exported successfully with embedded subtitles",
+			};
+		} catch (error) {
+			logger.error("Error exporting video with subtitles:", error);
+			throw error;
+		}
 	}
 
 	register() {

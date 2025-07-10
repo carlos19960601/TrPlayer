@@ -1,4 +1,11 @@
 import { AppSettingsProviderContext } from "@/renderer/context";
+import {
+	Button,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@renderer/components/ui";
 import dayjs from "@renderer/lib/dayjs";
 import { t } from "i18next";
 import {
@@ -11,13 +18,6 @@ import {
 import { MouseEvent, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import {
-	Button,
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "../ui";
 
 export const TranscriptionItem = (props: {
 	transcription: Partial<TranscriptionType>;
@@ -31,7 +31,7 @@ export const TranscriptionItem = (props: {
 
 	const handleClick = () => {
 		navigate(
-			`${transcription.targetType.toLowerCase()}s/${transcription.targetId}`,
+			`${transcription.targetType.toLowerCase()}s/${transcription.targetId}`
 		);
 	};
 

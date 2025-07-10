@@ -1,8 +1,8 @@
 import LanguageButtonGroup from "@renderer/components/misc/language-button-group";
+import { AppSettingsProviderContext } from "@renderer/context";
 import { t } from "i18next";
 import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { AppSettingsProviderContext } from "../context";
 
 const LandingPage = () => {
 	const { initialized, language } = useContext(AppSettingsProviderContext);
