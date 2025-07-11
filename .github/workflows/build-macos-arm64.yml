@@ -11,15 +11,15 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 10
-      
+
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: 'pnpm'
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11' 
-          
+          cache: "pnpm"
+
+      - name: Install python-setuptools
+        run: brew install python-setuptools
+
       - name: Install Python dependencies (distutils)
         run: |
           python3 -m ensurepip --default-pip
@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-      
+
       - name: Make
         run: pnpm run make
 
@@ -38,5 +38,3 @@ jobs:
           name: TrPlayer-${{ runner.os }}-arm64-build-${{ github.ref_name}}
           path: |
             out/make/**/*.dmg
-   
-
